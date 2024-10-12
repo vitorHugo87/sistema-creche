@@ -16,6 +16,14 @@ def mostrarMenu(menu):
         print('3 - Voltar')
         print('-' * 25)
 
+    if menu == 'relatorios':
+        print(' Relatorios '.center(30, '-'))
+        print('1 - Lista de Professores')
+        print('2 - Lista de Alunos')
+        print('3 - Lista das Salas')
+        print('4 - Voltar')
+        print('-' * 30)
+
 def pedirComando(opcoes):
     while True:
         comando = input('Comando: ')
@@ -92,8 +100,19 @@ def cadastrarProfessor():
     
     return prof
 
+def mostrarProfessores(professores):
+    system('cls')
+    for i, prof in enumerate(professores):
+        print(f' Professor {i+1} '.center(30, '-'))
+        print(f'Nome: {prof["nome"]}')
+        print(f'Turmas: {prof["turmas"]}')
+        print(f'Salario: R${prof["salario"]:.2f}\n')
+
 alunos = []
-professores = []
+professores = [
+    {'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
+    {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0}
+]
 
 while True:
     mostrarMenu('inicio')
@@ -109,6 +128,15 @@ while True:
                 prof = cadastrarProfessor()
                 if prof != None: professores.append(prof.copy())
             if comando == 3: break
-        comando = None
-    if comando == 3: break
+
+    elif comando == 2:
+        while True:
+            mostrarMenu('relatorios')
+            comando = pedirComando(4)
+            if comando == 1:
+                mostrarProfessores(professores)
+                input('Pressione Enter para continuar...')
+            elif comando == 4: break
+
+    elif comando == 3: break
 print('Finalizando Programa...')
