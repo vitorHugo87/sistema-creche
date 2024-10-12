@@ -108,7 +108,22 @@ def mostrarProfessores(professores):
         print(f'Turmas: {prof["turmas"]}')
         print(f'Salario: R${prof["salario"]:.2f}\n')
 
-alunos = []
+def mostrarAlunos(alunos):
+    system('cls')
+    for i, aluno in enumerate(alunos):
+        print(f' Aluno {i+1} '.center(30, '-'))
+        print(f'Nome: {aluno["nome"]}')
+        print(f'Idade: {aluno["idade"]} ano(s)')
+        print(f'Mãe: {aluno["mae"]}')
+        print(f'Notas: {aluno["notas"]}')
+        print(f'Media: {aluno["media"]:.1f}\n')
+
+alunos = [
+    {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'notas': [85, 75], 'media': 80},
+    {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'notas': [90, 88], 'media': 89},
+    {'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'notas': [70, 65], 'media': 67.5},
+    {'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'notas': [95, 85], 'media': 90}
+]
 professores = [
     {'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
     {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0}
@@ -135,6 +150,9 @@ while True:
             comando = pedirComando(4)
             if comando == 1:
                 mostrarProfessores(professores)
+                input('Pressione Enter para continuar...')
+            elif comando == 2:
+                mostrarAlunos(alunos)
                 input('Pressione Enter para continuar...')
             elif comando == 4: break
 
