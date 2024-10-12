@@ -28,6 +28,7 @@ def pedirComando(opcoes):
 def cadastrarAluno():
     aluno = {}
 
+    system('cls')
     print('-- [Digite cancelar para sair] --')
     aluno['nome'] = input('Nome: ')
     if aluno['nome'] == 'cancelar': return None
@@ -39,14 +40,11 @@ def cadastrarAluno():
         if aluno['idade'] == 'cancelar': return None
         elif aluno['idade'].isnumeric():
             aluno['idade'] = int(aluno['idade'])
-            if aluno['idade'] < 0:
-                print('-=- Erro! Idade Invalida Digitada! -=-')
-                continue
-            elif aluno['idade'] > 4:
+            if aluno['idade'] > 4:
                 print('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-')
                 continue
         else:
-            print('-=- Erro! Idade não pode conter letras! -=-')
+            print('-=- Erro! Idade Invalida Digitada! -=-')
             continue
         break
     
@@ -60,7 +58,42 @@ def cadastrarAluno():
 
     return aluno.copy()
 
+def cadastrarProfessor():
+    prof = {}
+
+    system('cls')
+    print('-- [Digite cancelar para sair] --')
+    prof['nome'] = input('Nome: ')
+    if prof['nome'] == 'cancelar': return None
+    prof['nome'] = prof['nome'].title()
+
+    prof['turmas'] = []
+    while True:
+        print('-- [Digite cancelar para sair] --')
+        print('-- [Digite parar para parar de adicionar turmas] --')
+        turma = input('Turma: ')
+        if turma == 'cancelar': return None
+        if turma == 'parar':
+            if len(prof['turmas']) < 1:
+                print('-=- Erro! Professor precisa possuir ao menos uma turma! -=-')
+                continue
+            break
+        elif not turma.isalpha() or len(turma) > 1:
+            print('-=- Erro! Turma Invalida! -=-')
+            continue
+        prof['turmas'].append(turma.upper())
+
+    while True:
+        try:
+            prof['salario'] = float(input('Salário: R$'))
+            break
+        except ValueError:
+            print('Erro! Valor invalido digitado!')
+    
+    return prof
+
 alunos = []
+professores = []
 
 while True:
     mostrarMenu('inicio')
@@ -72,6 +105,9 @@ while True:
             if comando == 1:
                 aluno = cadastrarAluno()
                 if aluno != None: alunos.append(aluno.copy())
+            elif comando == 2:
+                prof = cadastrarProfessor()
+                if prof != None: professores.append(prof.copy())
             if comando == 3: break
         comando = None
     if comando == 3: break
