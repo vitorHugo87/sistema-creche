@@ -1,0 +1,21 @@
+--- Atualizacao de dados ---
+Atualização de dados alunos
+
+Atualização de dados professores
+
+--- Notas dos alunos ---
+Adição de notas de alunos
+
+Calculo da media de notas
+
+--- Registros ---
+Registro de salas (Sala, Professores da sala, Alunos da sala)
+
+Registro financeiro(Pagamento de salarios,  Recebimento de mensalidade)
+
+Registro individual do aluno
+
+--- Refatoração ---
+Comentar Codigo
+
+Refatorar Codigo
