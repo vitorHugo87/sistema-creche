@@ -25,12 +25,54 @@ def pedirComando(opcoes):
             else: print('-=- Erro! Valor Invalido digitado! -=-')
         else: print('-=- Erro! Comando não pode conter letras! -=-')
 
+def cadastrarAluno():
+    aluno = {}
+
+    print('-- [Digite cancelar para sair] --')
+    aluno['nome'] = input('Nome: ')
+    if aluno['nome'] == 'cancelar': return None
+    aluno['nome'] = aluno['nome'].title()
+
+    while True:
+        print('-- [Digite cancelar para sair] --')
+        aluno['idade'] = input('Idade [Para menores de 1 ano digite 0]: ')
+        if aluno['idade'] == 'cancelar': return None
+        elif aluno['idade'].isnumeric():
+            aluno['idade'] = int(aluno['idade'])
+            if aluno['idade'] < 0:
+                print('-=- Erro! Idade Invalida Digitada! -=-')
+                continue
+            elif aluno['idade'] > 4:
+                print('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-')
+                continue
+        else:
+            print('-=- Erro! Idade não pode conter letras! -=-')
+            continue
+        break
+    
+    print('-- [Digite cancelar para sair] --')
+    aluno['mae'] = input('Nome da mãe: ')
+    if aluno['mae'] == 'cancelar': return None
+    aluno['mae'] = aluno['mae'].title()
+
+    aluno['notas'] = []
+    aluno['media'] = 0
+
+    return aluno.copy()
+
+alunos = []
+
 while True:
     mostrarMenu('inicio')
     comando = pedirComando(3)
     if comando == 1:
-        mostrarMenu('cadastro')
-        comando = pedirComando(3)
-        if comando == 3: continue
+        while True:
+            mostrarMenu('cadastro')
+            comando = pedirComando(3)
+            if comando == 1:
+                aluno = cadastrarAluno()
+                if aluno != None: alunos.append(aluno.copy())
+            if comando == 3: break
+        comando = None
     if comando == 3: break
 print('Finalizando Programa...')
