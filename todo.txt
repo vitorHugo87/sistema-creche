@@ -15,8 +15,6 @@ Registro financeiro(Pagamento de salarios,  Recebimento de mensalidade)
 
 Registro individual do aluno
 
-Registro coletivo dos alunos
-
 --- Refatoração ---
 Comentar Codigo
 
