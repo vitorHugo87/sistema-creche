@@ -50,36 +50,36 @@ def cadastrarAluno():
     aluno = {}
 
     system('cls')
-    print('-- [Digite cancelar para sair] --')
+    printCor('-- [Digite cancelar para sair] --', 'amarelo')
     aluno['nome'] = input('Nome: ')
     if aluno['nome'] == 'cancelar': return None
     aluno['nome'] = aluno['nome'].title()
 
     while True:
-        print('-- [Digite cancelar para sair] --')
+        printCor('-- [Digite cancelar para sair] --', 'amarelo')
         aluno['idade'] = input('Idade [Para menores de 1 ano digite 0]: ')
         if aluno['idade'] == 'cancelar': return None
         elif aluno['idade'].isnumeric():
             aluno['idade'] = int(aluno['idade'])
             if aluno['idade'] > 4:
-                print('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-')
+                printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
                 continue
         else:
-            print('-=- Erro! Idade Invalida Digitada! -=-')
+            printCor('-=- Erro! Idade Invalida Digitada! -=-', 'vermelho')
             continue
         break
     
-    print('-- [Digite cancelar para sair] --')
+    printCor('-- [Digite cancelar para sair] --', 'amarelo')
     aluno['mae'] = input('Nome da mãe: ')
     if aluno['mae'] == 'cancelar': return None
     aluno['mae'] = aluno['mae'].title()
 
     while True:
-        print('-- [Digite cancelar para sair] --')
+        printCor('-- [Digite cancelar para sair] --', 'amarelo')
         aluno['turma'] = input('Turma: ').upper()
         if aluno['turma'] == 'cancelar': return None
         elif not aluno['turma'].isalpha() or len(aluno['turma']) != 1:
-            print('-=- Erro! Turma invalida digitada -=-')
+            printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
             continue
         break
 
@@ -92,24 +92,24 @@ def cadastrarProfessor():
     prof = {}
 
     system('cls')
-    print('-- [Digite cancelar para sair] --')
+    printCor('-- [Digite cancelar para sair] --', 'amarelo')
     prof['nome'] = input('Nome: ')
     if prof['nome'] == 'cancelar': return None
     prof['nome'] = prof['nome'].title()
 
     prof['turmas'] = []
     while True:
-        print('-- [Digite cancelar para sair] --')
-        print('-- [Digite parar para parar de adicionar turmas] --')
+        printCor('-- [Digite cancelar para sair] --', 'amarelo')
+        printCor('-- [Digite parar para parar de adicionar turmas] --', 'amarelo')
         turma = input('Turma: ')
         if turma == 'cancelar': return None
         if turma == 'parar':
             if len(prof['turmas']) < 1:
-                print('-=- Erro! Professor precisa possuir ao menos uma turma! -=-')
+                printCor('-=- Erro! Professor precisa possuir ao menos uma turma! -=-', 'vermelho')
                 continue
             break
         elif not turma.isalpha() or len(turma) > 1:
-            print('-=- Erro! Turma Invalida! -=-')
+            printCor('-=- Erro! Turma Invalida! -=-', 'vermelho')
             continue
         prof['turmas'].append(turma.upper())
 
@@ -118,28 +118,45 @@ def cadastrarProfessor():
             prof['salario'] = float(input('Salário: R$'))
             break
         except ValueError:
-            print('Erro! Valor invalido digitado!')
+            printCor('Erro! Valor invalido digitado!', 'vermelho')
     
     return prof
 
 def mostrarProfessores(professores):
     system('cls')
     for i, prof in enumerate(professores):
-        print(f' Professor {i+1} '.center(30, '-'))
+        printCor(f' Professor {i+1} '.center(30, '-'), 'azul')
         print(f'Nome: {prof["nome"]}')
-        print(f'Turmas: {prof["turmas"]}')
-        print(f'Salario: R${prof["salario"]:.2f}\n')
+        print(f'Turmas: ', end='')
+        printCor(prof["turmas"], 'roxo')
+        print(f'Salario: ', end='')
+        printCor(f'R${prof["salario"]:.2f}\n', 'verde')
 
 def mostrarAlunos(alunos):
     system('cls')
     for i, aluno in enumerate(alunos):
-        print(f' Aluno {i+1} '.center(30, '-'))
+        printCor(f' Aluno {i+1} '.center(30, '-'), 'azul')
         print(f'Nome: {aluno["nome"]}')
         print(f'Idade: {aluno["idade"]} ano(s)')
         print(f'Mãe: {aluno["mae"]}')
-        print(f'Turma: {aluno["turma"]}')
-        print(f'Notas: {aluno["notas"]}')
-        print(f'Media: {aluno["media"]:.1f}\n')
+
+        print('Turma: ', end='')
+        printCor(aluno["turma"], 'roxo')
+
+        print(f'Notas: [', end='')
+        for i, nota in enumerate(aluno['notas']):
+            if nota > 60: cor = 'verde'
+            elif nota < 50: cor = 'vermelho'
+            else: cor = 'amarelo'
+            printCor(nota, cor, False)
+            if i != (len(aluno['notas']) - 1): print(', ', end='')
+            else: print(']')
+        
+        print(f'Media: ', end='')
+        if aluno['media'] > 60: cor = 'verde'
+        elif aluno['media'] < 50: cor = 'vermelho'
+        else: cor = 'amarelo'
+        printCor(f'{aluno["media"]:.1f}\n', cor)
 
 def atualizarSalas(alunos, professores):
     turmas = []
@@ -171,20 +188,20 @@ def atualizarSalas(alunos, professores):
 def mostrarSalas(turmas):
     system('cls')
     for sala in turmas:
-        print(f' Turma {sala["turma"]} '.center(30, '-'))
-        print('-=- Professores -=-')
+        printCor(f' Turma {sala["turma"]} '.center(30, '-'), 'azul')
+        printCor('-=- Professores -=-', 'roxo')
         for i, prof in enumerate(sala['professores']):
             print(f'{i+1} - {prof["nome"]}')
         
-        print('-=- Alunos -=-')
+        printCor('-=- Alunos -=-', 'roxo')
         for i, aluno in enumerate(sala['alunos']):
             print(f'{i+1} - {aluno["nome"]}')
         print()
 
 alunos = [
     {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
-    {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [90, 88], 'media': 89},
-    {'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [70, 65], 'media': 67.5},
+    {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
+    {'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
     {'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90}
 ]
 professores = [

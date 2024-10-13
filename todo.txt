@@ -18,3 +18,6 @@ Registro individual do aluno
 Comentar Codigo
 
 Refatorar Codigo
+
+cadastrarAluno() -> aluno['mae'] = aluno['mae'].title() -> por o title() direto no input
+cadastrarProfessor() -> Try Except faltando opção de cancelar
