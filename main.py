@@ -128,7 +128,7 @@ def mostrarAlunos(alunos):
         print(f'Notas: {aluno["notas"]}')
         print(f'Media: {aluno["media"]:.1f}\n')
 
-def mostrarSalas(alunos, professores):
+def atualizarSalas(alunos, professores):
     turmas = []
     for prof in professores:
         for turma in prof['turmas']:
@@ -152,9 +152,12 @@ def mostrarSalas(alunos, professores):
             if aluno['turma'] == turma: sala['alunos'].append(aluno)
 
         salas.append(sala.copy())
+    
+    return salas[:]
 
+def mostrarSalas(turmas):
     system('cls')
-    for sala in salas:
+    for sala in turmas:
         print(f' Turma {sala["turma"]} '.center(30, '-'))
         print('-=- Professores -=-')
         for i, prof in enumerate(sala['professores']):
@@ -175,6 +178,7 @@ professores = [
     {'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
     {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0}
 ]
+turmas = atualizarSalas(alunos, professores)
 
 while True:
     mostrarMenu('inicio')
@@ -185,10 +189,14 @@ while True:
             comando = pedirComando(3)
             if comando == 1:
                 aluno = cadastrarAluno()
-                if aluno != None: alunos.append(aluno.copy())
+                if aluno != None:
+                    alunos.append(aluno.copy())
+                    turmas = atualizarSalas(alunos, professores)
             elif comando == 2:
                 prof = cadastrarProfessor()
-                if prof != None: professores.append(prof.copy())
+                if prof != None: 
+                    professores.append(prof.copy())
+                    turmas = atualizarSalas(alunos, professores)
             else: break
 
     elif comando == 2:
@@ -202,7 +210,7 @@ while True:
                 mostrarAlunos(alunos)
                 input('Pressione Enter para continuar...')
             elif comando == 3:
-                mostrarSalas(alunos, professores)
+                mostrarSalas(turmas)
                 input('Pressione Enter para continuar...')
             elif comando == 4: break
 
