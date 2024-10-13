@@ -203,11 +203,42 @@ alunos = [
     {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
     {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
     {'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
-    {'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90}
+    {'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90},
+    
+    {'nome': 'Pedro Oliveira', 'idade': 3, 'mae': 'Ana Oliveira', 'turma': 'A', 'notas': [70, 60], 'media': 65},
+    {'nome': 'Sofia Santos', 'idade': 2, 'mae': 'Bruna Santos', 'turma': 'A', 'notas': [90, 80], 'media': 85},
+    {'nome': 'Rafael Ferreira', 'idade': 4, 'mae': 'Juliana Ferreira', 'turma': 'B', 'notas': [60, 50], 'media': 55},
+    {'nome': 'Giovanna Costa', 'idade': 1, 'mae': 'Patrícia Costa', 'turma': 'C', 'notas': [80, 75], 'media': 77.5},
+
+    {'nome': 'Miguel Almeida', 'idade': 3, 'mae': 'Tatiana Almeida', 'turma': 'D', 'notas': [85, 70], 'media': 77.5},
+    {'nome': 'Emily Rocha', 'idade': 2, 'mae': 'Renata Rocha', 'turma': 'D', 'notas': [95, 90], 'media': 92.5},
+    {'nome': 'Arthur Ribeiro', 'idade': 4, 'mae': 'Roberta Ribeiro', 'turma': 'B', 'notas': [50, 45], 'media': 47.5},
+    {'nome': 'Mariana Silva', 'idade': 3, 'mae': 'Luciana Silva', 'turma': 'C', 'notas': [85, 80], 'media': 82.5},
+
+    {'nome': 'Felipe Lopes', 'idade': 2, 'mae': 'Carla Lopes', 'turma': 'A', 'notas': [70, 60], 'media': 65},
+    {'nome': 'Ana Clara Lima', 'idade': 1, 'mae': 'Sônia Lima', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
+    {'nome': 'Henrique Barbosa', 'idade': 3, 'mae': 'Aline Barbosa', 'turma': 'C', 'notas': [95, 90], 'media': 92.5},
+    {'nome': 'Valentina Carvalho', 'idade': 4, 'mae': 'Bianca Carvalho', 'turma': 'D', 'notas': [65, 55], 'media': 60},
+
+    {'nome': 'Gabriel Martins', 'idade': 3, 'mae': 'Renata Martins', 'turma': 'A', 'notas': [80, 75], 'media': 77.5},
+    {'nome': 'Lara Costa', 'idade': 1, 'mae': 'Viviane Costa', 'turma': 'D', 'notas': [60, 50], 'media': 55},
+    {'nome': 'João Pedro Lima', 'idade': 2, 'mae': 'Tatiana Lima', 'turma': 'B', 'notas': [65, 60], 'media': 62.5},
+    {'nome': 'Camila Fonseca', 'idade': 4, 'mae': 'Juliana Fonseca', 'turma': 'C', 'notas': [75, 70], 'media': 72.5},
+
+    {'nome': 'Daniel Souza', 'idade': 2, 'mae': 'Paula Souza', 'turma': 'A', 'notas': [90, 80], 'media': 85},
+    {'nome': 'Beatriz Mota', 'idade': 1, 'mae': 'Carolina Mota', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
+    {'nome': 'Yasmin Oliveira', 'idade': 3, 'mae': 'Cláudia Oliveira', 'turma': 'D', 'notas': [85, 75], 'media': 80},
+    {'nome': 'Matheus Rodrigues', 'idade': 4, 'mae': 'Fernanda Rodrigues', 'turma': 'C', 'notas': [60, 55], 'media': 57.5}
 ]
 professores = [
     {'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
-    {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0}
+    {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0},
+    {'nome': 'Ana Oliveira', 'turmas': ['A'], 'salario': 2400.0},
+    {'nome': 'Carlos Pereira', 'turmas': ['A', 'D'], 'salario': 2600.0},
+    {'nome': 'Bruna Mendes', 'turmas': ['B'], 'salario': 2300.0},
+    {'nome': 'Fernando Costa', 'turmas': ['C', 'D'], 'salario': 2800.0},
+    {'nome': 'Roberta Nunes', 'turmas': ['A', 'B', 'D'], 'salario': 2900.0},
+    {'nome': 'Marcelo Souza', 'turmas': ['B', 'C', 'D'], 'salario': 3100.0}
 ]
 turmas = atualizarSalas(alunos, professores)
 
