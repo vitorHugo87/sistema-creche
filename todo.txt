@@ -9,7 +9,6 @@ Adição de notas de alunos
 Calculo da media de notas
 
 --- Registros ---
-Registro de salas (Sala, Professores da sala, Alunos da sala)
 
 Registro financeiro(Pagamento de salarios,  Recebimento de mensalidade)
 

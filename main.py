@@ -128,6 +128,43 @@ def mostrarAlunos(alunos):
         print(f'Notas: {aluno["notas"]}')
         print(f'Media: {aluno["media"]:.1f}\n')
 
+def mostrarSalas(alunos, professores):
+    turmas = []
+    for prof in professores:
+        for turma in prof['turmas']:
+            if turma not in turmas: turmas.append(turma)
+    for aluno in alunos:
+        if aluno['turma'] not in turmas: turmas.append(aluno['turma'])
+
+    turmas.sort()
+    
+    salas = []
+    for turma in turmas:
+        sala = {}
+        sala['turma'] = turma
+        sala['professores'] = []
+        for prof in professores:
+            for turmaProf in prof['turmas']:
+                if turmaProf == turma: sala['professores'].append(prof)
+
+        sala['alunos'] = []
+        for aluno in alunos:
+            if aluno['turma'] == turma: sala['alunos'].append(aluno)
+
+        salas.append(sala.copy())
+
+    system('cls')
+    for sala in salas:
+        print(f' Turma {sala["turma"]} '.center(30, '-'))
+        print('-=- Professores -=-')
+        for i, prof in enumerate(sala['professores']):
+            print(f'{i+1} - {prof["nome"]}')
+        
+        print('-=- Alunos -=-')
+        for i, aluno in enumerate(sala['alunos']):
+            print(f'{i+1} - {aluno["nome"]}')
+        print()
+
 alunos = [
     {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
     {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [90, 88], 'media': 89},
@@ -152,7 +189,7 @@ while True:
             elif comando == 2:
                 prof = cadastrarProfessor()
                 if prof != None: professores.append(prof.copy())
-            if comando == 3: break
+            else: break
 
     elif comando == 2:
         while True:
@@ -164,7 +201,10 @@ while True:
             elif comando == 2:
                 mostrarAlunos(alunos)
                 input('Pressione Enter para continuar...')
+            elif comando == 3:
+                mostrarSalas(alunos, professores)
+                input('Pressione Enter para continuar...')
             elif comando == 4: break
 
-    elif comando == 3: break
+    else: break
 print('Finalizando Programa...')
