@@ -144,6 +144,7 @@ def mostrarAlunos(alunos):
         printCor(aluno["turma"], 'roxo')
 
         print(f'Notas: [', end='')
+        if len(aluno['notas']) == 0: print(']')
         for i, nota in enumerate(aluno['notas']):
             if nota > 60: cor = 'verde'
             elif nota < 50: cor = 'vermelho'
