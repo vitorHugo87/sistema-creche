@@ -1,32 +1,45 @@
 from os import system
 
+def printCor(msg, cor, end=True):
+    cores = {'padrao': '\33[m',
+             'vermelho': '\33[31m',
+             'verde': '\33[32m',
+             'amarelo': '\33[33m',
+             'azul': '\33[34m',
+             'roxo': '\33[35m',
+             'ciano': '\33[36m',
+             'cinza': '\33[37m'}
+    if end: print(f'{cores[cor]}{msg}{cores["padrao"]}')
+    else: print(f'{cores[cor]}{msg}{cores["padrao"]}', end='')
+
 def mostrarMenu(menu):
     system('cls')
     if menu == 'inicio':
-        print(' Menu '.center(20, '-'))
+        printCor(' Menu '.center(20, '-'), 'azul')
         print('1 - Cadastro')
         print('2 - Relatorios')
         print('3 - Sair')
-        print('-' * 20)
+        printCor(('-' * 20), 'azul')
     
     if menu == 'cadastro':
-        print(' Cadastro '.center(25, '-'))
+        printCor(' Cadastro '.center(25, '-'), 'azul')
         print('1 - Cadastro de Aluno')
         print('2 - Cadastro de Professor')
         print('3 - Voltar')
-        print('-' * 25)
+        printCor(('-' * 25), 'azul')
 
     if menu == 'relatorios':
-        print(' Relatorios '.center(30, '-'))
+        printCor(' Relatorios '.center(30, '-'), 'azul')
         print('1 - Lista de Professores')
         print('2 - Lista de Alunos')
         print('3 - Lista das Salas')
         print('4 - Voltar')
-        print('-' * 30)
+        printCor(('-' * 30), 'azul')
 
 def pedirComando(opcoes):
     while True:
-        comando = input('Comando: ')
+        printCor('Comando: ', 'verde', False)
+        comando = input()
         if comando.isnumeric():
             comando = int(comando)
             if 0 < comando <= opcoes: return comando
