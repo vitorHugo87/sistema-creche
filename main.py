@@ -90,7 +90,7 @@ def cadastrarAluno():
 
 def cadastrarProfessor(professores):
     prof = {}
-    prof['id'] = len(professores) + 1
+    prof['id'] = professores[-1]['id'] + 1
 
     system('cls')
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
