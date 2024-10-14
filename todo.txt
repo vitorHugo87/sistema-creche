@@ -1,3 +1,8 @@
+-- Hierarquia de Acesso --
+Criação de usuario
+
+Niveis de Acesso(ADM, Professor, Aluno)
+
 --- Atualizacao de dados ---
 Atualização de dados alunos
 
@@ -19,5 +24,6 @@ Comentar Codigo
 
 Refatorar Codigo
 
-cadastrarAluno() -> aluno['mae'] = aluno['mae'].title() -> por o title() direto no input
+cadastrarAluno() -> aluno['mae'] = aluno['mae'].title() -> por o title() direto no input (Atenção com o cancelar)
 cadastrarProfessor() -> Try Except faltando opção de cancelar
+alunos = [...] -> Ordenar instanciação por sala

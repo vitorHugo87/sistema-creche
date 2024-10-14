@@ -77,7 +77,7 @@ def cadastrarAluno():
     while True:
         printCor('-- [Digite cancelar para sair] --', 'amarelo')
         aluno['turma'] = input('Turma: ').upper()
-        if aluno['turma'] == 'cancelar': return None
+        if aluno['turma'] == 'CANCELAR': return None
         elif not aluno['turma'].isalpha() or len(aluno['turma']) != 1:
             printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
             continue
@@ -88,8 +88,9 @@ def cadastrarAluno():
 
     return aluno.copy()
 
-def cadastrarProfessor():
+def cadastrarProfessor(professores):
     prof = {}
+    prof['id'] = len(professores) + 1
 
     system('cls')
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
@@ -112,6 +113,7 @@ def cadastrarProfessor():
             printCor('-=- Erro! Turma Invalida! -=-', 'vermelho')
             continue
         prof['turmas'].append(turma.upper())
+    prof['turmas'].sort()
 
     while True:
         try:
@@ -119,13 +121,14 @@ def cadastrarProfessor():
             break
         except ValueError:
             printCor('Erro! Valor invalido digitado!', 'vermelho')
-    
+
     return prof
 
 def mostrarProfessores(professores):
     system('cls')
     for i, prof in enumerate(professores):
         printCor(f' Professor {i+1} '.center(30, '-'), 'azul')
+        print(f'Id: {prof["id"]}')
         print(f'Nome: {prof["nome"]}')
         print(f'Turmas: ', end='')
         printCor(prof["turmas"], 'roxo')
@@ -231,14 +234,15 @@ alunos = [
     {'nome': 'Matheus Rodrigues', 'idade': 4, 'mae': 'Fernanda Rodrigues', 'turma': 'C', 'notas': [60, 55], 'media': 57.5}
 ]
 professores = [
-    {'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
-    {'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0},
-    {'nome': 'Ana Oliveira', 'turmas': ['A'], 'salario': 2400.0},
-    {'nome': 'Carlos Pereira', 'turmas': ['A', 'D'], 'salario': 2600.0},
-    {'nome': 'Bruna Mendes', 'turmas': ['B'], 'salario': 2300.0},
-    {'nome': 'Fernando Costa', 'turmas': ['C', 'D'], 'salario': 2800.0},
-    {'nome': 'Roberta Nunes', 'turmas': ['A', 'B', 'D'], 'salario': 2900.0},
-    {'nome': 'Marcelo Souza', 'turmas': ['B', 'C', 'D'], 'salario': 3100.0}
+    {'id': 1, 'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
+    {'id': 2, 'nome': 'Helena Silva', 'turmas': ['B', 'C'], 'salario': 2750.0},
+    {'id': 3, 'nome': 'Ana Oliveira', 'turmas': ['A'], 'salario': 2400.0},
+    {'id': 4, 'nome': 'Carlos Pereira', 'turmas': ['A', 'D'], 'salario': 2600.0},
+
+    {'id': 5, 'nome': 'Bruna Mendes', 'turmas': ['B'], 'salario': 2300.0},
+    {'id': 6, 'nome': 'Fernando Costa', 'turmas': ['C', 'D'], 'salario': 2800.0},
+    {'id': 7, 'nome': 'Roberta Nunes', 'turmas': ['A', 'B', 'D'], 'salario': 2900.0},
+    {'id': 8, 'nome': 'Marcelo Souza', 'turmas': ['B', 'C', 'D'], 'salario': 3100.0}
 ]
 turmas = atualizarSalas(alunos, professores)
 
@@ -255,7 +259,7 @@ while True:
                     alunos.append(aluno.copy())
                     turmas = atualizarSalas(alunos, professores)
             elif comando == 2:
-                prof = cadastrarProfessor()
+                prof = cadastrarProfessor(professores)
                 if prof != None: 
                     professores.append(prof.copy())
                     turmas = atualizarSalas(alunos, professores)
