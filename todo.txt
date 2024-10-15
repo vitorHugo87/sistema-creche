@@ -6,15 +6,12 @@ Niveis de Acesso(ADM, Professor, Aluno)
 --- Atualizacao de dados ---
 Atualização de dados alunos
 
-Atualização de dados professores
-
 --- Notas dos alunos ---
 Adição de notas de alunos
 
 Calculo da media de notas
 
 --- Registros ---
-
 Registro financeiro(Pagamento de salarios,  Recebimento de mensalidade)
 
 Registro individual do aluno

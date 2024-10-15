@@ -54,8 +54,9 @@ def pedirComando(opcoes):
             else: print('-=- Erro! Valor Invalido digitado! -=-')
         else: print('-=- Erro! Comando não pode conter letras! -=-')
 
-def cadastrarAluno():
+def cadastrarAluno(alunos):
     aluno = {}
+    aluno['ra'] = alunos[-1]['ra'] + 1
 
     system('cls')
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
@@ -147,6 +148,7 @@ def mostrarAlunos(alunos):
     system('cls')
     for i, aluno in enumerate(alunos):
         printCor(f' Aluno {i+1} '.center(30, '-'), 'azul')
+        print(f'RA: {aluno["ra"]}')
         print(f'Nome: {aluno["nome"]}')
         print(f'Idade: {aluno["idade"]} ano(s)')
         print(f'Mãe: {aluno["mae"]}')
@@ -291,35 +293,35 @@ def editarProfessor(professor):
 
 
 alunos = [
-    {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
-    {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
-    {'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
-    {'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90},
+    {'ra': 1, 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
+    {'ra': 2, 'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
+    {'ra': 3, 'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
+    {'ra': 4, 'nome': 'Isabela Martins', 'idade': 2, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90},
     
-    {'nome': 'Pedro Oliveira', 'idade': 3, 'mae': 'Ana Oliveira', 'turma': 'A', 'notas': [70, 60], 'media': 65},
-    {'nome': 'Sofia Santos', 'idade': 2, 'mae': 'Bruna Santos', 'turma': 'A', 'notas': [90, 80], 'media': 85},
-    {'nome': 'Rafael Ferreira', 'idade': 4, 'mae': 'Juliana Ferreira', 'turma': 'B', 'notas': [60, 50], 'media': 55},
-    {'nome': 'Giovanna Costa', 'idade': 1, 'mae': 'Patrícia Costa', 'turma': 'C', 'notas': [80, 75], 'media': 77.5},
+    {'ra': 5, 'nome': 'Pedro Oliveira', 'idade': 3, 'mae': 'Ana Oliveira', 'turma': 'A', 'notas': [70, 60], 'media': 65},
+    {'ra': 6, 'nome': 'Sofia Santos', 'idade': 2, 'mae': 'Bruna Santos', 'turma': 'A', 'notas': [90, 80], 'media': 85},
+    {'ra': 7, 'nome': 'Rafael Ferreira', 'idade': 4, 'mae': 'Juliana Ferreira', 'turma': 'B', 'notas': [60, 50], 'media': 55},
+    {'ra': 8, 'nome': 'Giovanna Costa', 'idade': 1, 'mae': 'Patrícia Costa', 'turma': 'C', 'notas': [80, 75], 'media': 77.5},
 
-    {'nome': 'Miguel Almeida', 'idade': 3, 'mae': 'Tatiana Almeida', 'turma': 'D', 'notas': [85, 70], 'media': 77.5},
-    {'nome': 'Emily Rocha', 'idade': 2, 'mae': 'Renata Rocha', 'turma': 'D', 'notas': [95, 90], 'media': 92.5},
-    {'nome': 'Arthur Ribeiro', 'idade': 4, 'mae': 'Roberta Ribeiro', 'turma': 'B', 'notas': [50, 45], 'media': 47.5},
-    {'nome': 'Mariana Silva', 'idade': 3, 'mae': 'Luciana Silva', 'turma': 'C', 'notas': [85, 80], 'media': 82.5},
+    {'ra': 9, 'nome': 'Miguel Almeida', 'idade': 3, 'mae': 'Tatiana Almeida', 'turma': 'D', 'notas': [85, 70], 'media': 77.5},
+    {'ra': 10, 'nome': 'Emily Rocha', 'idade': 2, 'mae': 'Renata Rocha', 'turma': 'D', 'notas': [95, 90], 'media': 92.5},
+    {'ra': 11, 'nome': 'Arthur Ribeiro', 'idade': 4, 'mae': 'Roberta Ribeiro', 'turma': 'B', 'notas': [50, 45], 'media': 47.5},
+    {'ra': 12, 'nome': 'Mariana Silva', 'idade': 3, 'mae': 'Luciana Silva', 'turma': 'C', 'notas': [85, 80], 'media': 82.5},
 
-    {'nome': 'Felipe Lopes', 'idade': 2, 'mae': 'Carla Lopes', 'turma': 'A', 'notas': [70, 60], 'media': 65},
-    {'nome': 'Ana Clara Lima', 'idade': 1, 'mae': 'Sônia Lima', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
-    {'nome': 'Henrique Barbosa', 'idade': 3, 'mae': 'Aline Barbosa', 'turma': 'C', 'notas': [95, 90], 'media': 92.5},
-    {'nome': 'Valentina Carvalho', 'idade': 4, 'mae': 'Bianca Carvalho', 'turma': 'D', 'notas': [65, 55], 'media': 60},
+    {'ra': 13, 'nome': 'Felipe Lopes', 'idade': 2, 'mae': 'Carla Lopes', 'turma': 'A', 'notas': [70, 60], 'media': 65},
+    {'ra': 14, 'nome': 'Ana Clara Lima', 'idade': 1, 'mae': 'Sônia Lima', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
+    {'ra': 15, 'nome': 'Henrique Barbosa', 'idade': 3, 'mae': 'Aline Barbosa', 'turma': 'C', 'notas': [95, 90], 'media': 92.5},
+    {'ra': 16, 'nome': 'Valentina Carvalho', 'idade': 4, 'mae': 'Bianca Carvalho', 'turma': 'D', 'notas': [65, 55], 'media': 60},
 
-    {'nome': 'Gabriel Martins', 'idade': 3, 'mae': 'Renata Martins', 'turma': 'A', 'notas': [80, 75], 'media': 77.5},
-    {'nome': 'Lara Costa', 'idade': 1, 'mae': 'Viviane Costa', 'turma': 'D', 'notas': [60, 50], 'media': 55},
-    {'nome': 'João Pedro Lima', 'idade': 2, 'mae': 'Tatiana Lima', 'turma': 'B', 'notas': [65, 60], 'media': 62.5},
-    {'nome': 'Camila Fonseca', 'idade': 4, 'mae': 'Juliana Fonseca', 'turma': 'C', 'notas': [75, 70], 'media': 72.5},
+    {'ra': 17, 'nome': 'Gabriel Martins', 'idade': 3, 'mae': 'Renata Martins', 'turma': 'A', 'notas': [80, 75], 'media': 77.5},
+    {'ra': 18, 'nome': 'Lara Costa', 'idade': 1, 'mae': 'Viviane Costa', 'turma': 'D', 'notas': [60, 50], 'media': 55},
+    {'ra': 19, 'nome': 'João Pedro Lima', 'idade': 2, 'mae': 'Tatiana Lima', 'turma': 'B', 'notas': [65, 60], 'media': 62.5},
+    {'ra': 20, 'nome': 'Camila Fonseca', 'idade': 4, 'mae': 'Juliana Fonseca', 'turma': 'C', 'notas': [75, 70], 'media': 72.5},
 
-    {'nome': 'Daniel Souza', 'idade': 2, 'mae': 'Paula Souza', 'turma': 'A', 'notas': [90, 80], 'media': 85},
-    {'nome': 'Beatriz Mota', 'idade': 1, 'mae': 'Carolina Mota', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
-    {'nome': 'Yasmin Oliveira', 'idade': 3, 'mae': 'Cláudia Oliveira', 'turma': 'D', 'notas': [85, 75], 'media': 80},
-    {'nome': 'Matheus Rodrigues', 'idade': 4, 'mae': 'Fernanda Rodrigues', 'turma': 'C', 'notas': [60, 55], 'media': 57.5}
+    {'ra': 21, 'nome': 'Daniel Souza', 'idade': 2, 'mae': 'Paula Souza', 'turma': 'A', 'notas': [90, 80], 'media': 85},
+    {'ra': 22, 'nome': 'Beatriz Mota', 'idade': 1, 'mae': 'Carolina Mota', 'turma': 'B', 'notas': [55, 50], 'media': 52.5},
+    {'ra': 23, 'nome': 'Yasmin Oliveira', 'idade': 3, 'mae': 'Cláudia Oliveira', 'turma': 'D', 'notas': [85, 75], 'media': 80},
+    {'ra': 24, 'nome': 'Matheus Rodrigues', 'idade': 4, 'mae': 'Fernanda Rodrigues', 'turma': 'C', 'notas': [60, 55], 'media': 57.5}
 ]
 professores = [
     {'id': 1, 'nome': 'Julio Vargas', 'turmas': ['A', 'C'], 'salario': 2500.0},
@@ -342,7 +344,7 @@ while True:
             mostrarMenu('cadastro')
             comando = pedirComando(3)
             if comando == 1:
-                aluno = cadastrarAluno()
+                aluno = cadastrarAluno(alunos)
                 if aluno != None:
                     alunos.append(aluno.copy())
                     turmas = atualizarSalas(alunos, professores)
