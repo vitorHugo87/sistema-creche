@@ -24,3 +24,4 @@ Refatorar Codigo
 cadastrarAluno() -> aluno['mae'] = aluno['mae'].title() -> por o title() direto no input (Atenção com o cancelar)
 cadastrarProfessor() -> Try Except faltando opção de cancelar
 alunos = [...] -> Ordenar instanciação por sala
+editarProfessor() -> alteração do campo nome precisa da opção de cancelar

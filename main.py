@@ -291,6 +291,127 @@ def editarProfessor(professor):
                 except ValueError:
                     printCor('-=- Erro! Valor invalido digitado! -=-', 'vermelho')
 
+def localizarAluno(alunos):
+    mostrarAlunos(alunos)
+    while True:
+        try:
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            printCor('Digite o RA do aluno: ', 'verde', False)
+            ra = input()
+            if ra == 'cancelar': return None
+            ra = int(ra)
+            for aluno in alunos:
+                if ra == aluno['ra']: return aluno
+            printCor('-=- Erro! Não foi possivel localizar este RA -=-', 'vermelho')
+        except ValueError:
+            printCor('-=- Erro! RA Invalido digitado!', 'vermelho')
+
+def localizarPosicaoAluno(aluno, alunos):
+    for i, a in enumerate(alunos):
+        if a['ra'] == aluno['ra']: return i
+    return -1 
+
+def editarAluno(aluno):
+    aluno = aluno.copy()
+    while True:
+        system('cls')
+        printCor(f' Aluno RA:{aluno["ra"]} '.center(30, '-'), 'azul')
+        print(f'Nome: {aluno["nome"]}')
+        print(f'Idade: {aluno["idade"]} ano(s)')
+        print(f'Mãe: {aluno["mae"]}')
+
+        print('Turma: ', end='')
+        printCor(aluno["turma"], 'roxo')
+
+        print(f'Notas: [', end='')
+        if len(aluno['notas']) == 0: print(']')
+        for i, nota in enumerate(aluno['notas']):
+            if nota > 60: cor = 'verde'
+            elif nota < 50: cor = 'vermelho'
+            else: cor = 'amarelo'
+            printCor(nota, cor, False)
+            if i != (len(aluno['notas']) - 1): print(', ', end='')
+            else: print(']')
+        
+        print(f'Media: ', end='')
+        if aluno['media'] > 60: cor = 'verde'
+        elif aluno['media'] < 50: cor = 'vermelho'
+        else: cor = 'amarelo'
+        printCor(f'{aluno["media"]:.1f}\n', cor)
+
+        while True:
+            printCor('-- [Digite cancelar para voltar] --', 'amarelo')
+            printCor('-- [Digite salvar para salvar alterações] --', 'amarelo')
+            printCor('Digite o nome do campo a ser atualizado: ', 'verde', False)
+            campo = input().lower().strip()
+            if campo == 'cancelar': return None
+            elif campo == 'salvar': return aluno
+            elif campo not in ['nome', 'idade', 'mae', 'turma', 'notas', 'media']:
+                printCor('-=- Erro! Campo invalido informado! -=-', 'vermelho')
+                continue
+            if campo == 'media':
+                printCor('-=- Erro! A média é calculada automaticamente com base nas notas! -=-', 'vermelho')
+                continue
+            break
+
+        if campo == 'nome':
+            printCor('-- [Digite cancelar para voltar] --', 'amarelo')
+            nome = input('Novo nome: ').title().strip()
+            if nome == 'Cancelar': continue
+            aluno['nome'] = nome
+
+        elif campo == 'idade':
+            while True:
+                try:
+                    printCor('-- [Digite cancelar para voltar] --', 'amarelo')
+                    idade = input('Nova idade (Digite 0 caso a criança tenha menos de 1 ano): ')
+                    if idade == 'cancelar': break
+                    idade = int(idade)
+                    if idade > 4:
+                        printCor('-=- Erro! A creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
+                        continue
+                    elif idade < 0:
+                        raise ValueError()
+                    aluno['idade'] = idade
+                    break
+                except ValueError:
+                    printCor('-=- Erro! Idade invalida digitada -=-', 'vermelho')
+
+        elif campo == 'mae':
+            printCor('-- [Digite cancelar para voltar] --', 'amarelo')
+            mae = input('Novo nome da mãe: ').title().strip()
+            if mae == 'Cancelar': continue
+            aluno['mae'] = mae
+
+        elif campo == 'turma':
+            while True:
+                printCor('-- [Digite cancelar para voltar] --', 'amarelo')
+                turma = input('Nova turma: ').upper().strip()
+                if turma == 'CANCELAR': break
+                elif not turma.isalpha() or len(turma) != 1:
+                    printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
+                    continue
+                aluno['turma'] = turma
+                break
+
+        else:
+            notas = []
+            while True:
+                printCor('-- [Digite cancelar para sair] --', 'amarelo')
+                printCor('-- [Digite salvar para parar de adicionar notas] --', 'amarelo')
+                try:
+                    nota = input('Nota: ')
+                    if nota in ['cancelar', 'salvar']: break
+                    nota = float(nota)
+                    if nota < 0 or nota > 100: raise ValueError()
+                except ValueError:
+                    printCor('-=- Erro! Nota invalida Digitada! -=-', 'vermelho')
+                    continue
+                notas.append(nota)
+            if nota == 'salvar': 
+                aluno['notas'] = notas[:]
+                aluno['media'] = sum(aluno['notas']) / len(aluno['notas'])
+
 
 alunos = [
     {'ra': 1, 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
@@ -379,7 +500,14 @@ while True:
                 if prof != None:
                     prof = editarProfessor(prof)
                     if prof != None:
-                        professores[localizarPosicaoProfessor(prof, professores)] = prof
+                        professores[localizarPosicaoProfessor(prof, professores)] = prof.copy()
+                        atualizarSalas(alunos, professores)
+            elif comando == 2:
+                aluno = localizarAluno(alunos)
+                if aluno != None:
+                    aluno = editarAluno(aluno)
+                    if aluno != None:
+                        alunos[localizarPosicaoAluno(aluno, alunos)] = aluno.copy()
                         atualizarSalas(alunos, professores)
             else: break
 
