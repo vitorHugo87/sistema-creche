@@ -13,7 +13,8 @@ def printCor(msg, cor, end=True):
     else: print(f'{cores[cor]}{msg}{cores["padrao"]}', end='')
 
 def mostrarMenu(menu):
-    system('cls')
+    #Exibe um menu especifico com base no parametro passado
+    system('cls') #Limpa o Console
     if menu == 'inicio':
         printCor(' Menu '.center(20, '-'), 'azul')
         print('1 - Cadastro')
@@ -45,6 +46,8 @@ def mostrarMenu(menu):
         printCor(('-' * 30), 'azul')
 
 def pedirComando(opcoes):
+    #Espera que o usuario digite um numero entre 1 e o maximo passado pelo parametro opcoes
+    #Executa em loop infinito até que um numero valido seja digitado
     while True:
         printCor('Comando: ', 'verde', False)
         comando = input()
@@ -56,20 +59,20 @@ def pedirComando(opcoes):
 
 def cadastrarAluno(alunos):
     aluno = {}
+    #Pega o ultimo RA cadastrado e acrescenta 1
     aluno['ra'] = alunos[-1]['ra'] + 1
 
-    system('cls')
+    system('cls') #Limpa o Console
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
-    aluno['nome'] = input('Nome: ')
-    if aluno['nome'] == 'cancelar': return None
-    aluno['nome'] = aluno['nome'].title()
+    aluno['nome'] = input('Nome: ').title()
+    if aluno['nome'] == 'Cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
 
     while True:
         printCor('-- [Digite cancelar para sair] --', 'amarelo')
         aluno['idade'] = input('Idade [Para menores de 1 ano digite 0]: ')
-        if aluno['idade'] == 'cancelar': return None
-        elif aluno['idade'].isnumeric():
-            aluno['idade'] = int(aluno['idade'])
+        if aluno['idade'] == 'cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
+        elif aluno['idade'].isnumeric(): #Verifica se a idade digitada é um numero
+            aluno['idade'] = int(aluno['idade']) #Converte de str para int
             if aluno['idade'] > 4:
                 printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
                 continue
@@ -79,32 +82,34 @@ def cadastrarAluno(alunos):
         break
     
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
-    aluno['mae'] = input('Nome da mãe: ')
-    if aluno['mae'] == 'cancelar': return None
-    aluno['mae'] = aluno['mae'].title()
+    aluno['mae'] = input('Nome da mãe: ').title()
+    if aluno['mae'] == 'Cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
 
     while True:
         printCor('-- [Digite cancelar para sair] --', 'amarelo')
         aluno['turma'] = input('Turma: ').upper()
-        if aluno['turma'] == 'CANCELAR': return None
+        if aluno['turma'] == 'CANCELAR': return None #Caso o usuario digite 'cancelar' retorna vazio
         elif not aluno['turma'].isalpha() or len(aluno['turma']) != 1:
             printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
             continue
         break
 
+    #Inicializa as notas e medias com valores padrões
     aluno['notas'] = []
     aluno['media'] = 0
 
+    #Retorna uma cópia do aluno recém criado
     return aluno.copy()
 
 def cadastrarProfessor(professores):
     prof = {}
+    #Pega o ultimo ID cadastrado e acrescenta 1
     prof['id'] = professores[-1]['id'] + 1
 
     system('cls')
     printCor('-- [Digite cancelar para sair] --', 'amarelo')
     prof['nome'] = input('Nome: ')
-    if prof['nome'] == 'cancelar': return None
+    if prof['nome'] == 'cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
     prof['nome'] = prof['nome'].title()
 
     prof['turmas'] = []
@@ -112,7 +117,7 @@ def cadastrarProfessor(professores):
         printCor('-- [Digite cancelar para sair] --', 'amarelo')
         printCor('-- [Digite parar para parar de adicionar turmas] --', 'amarelo')
         turma = input('Turma: ')
-        if turma == 'cancelar': return None
+        if turma == 'cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
         if turma == 'parar':
             if len(prof['turmas']) < 1:
                 printCor('-=- Erro! Professor precisa possuir ao menos uma turma! -=-', 'vermelho')
@@ -126,15 +131,21 @@ def cadastrarProfessor(professores):
 
     while True:
         try:
-            prof['salario'] = float(input('Salário: R$'))
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            prof['salario'] = input('Salário: R$')
+            if prof['salario'] == 'cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
+            prof['salario'] = float(prof['salario']) #Converte de str para float
+            if prof['salario'] < 0: raise ValueError() #Caso o valor seja menor que zero lança um ValueErrorException
             break
         except ValueError:
             printCor('-=- Erro! Valor invalido digitado! -=-', 'vermelho')
 
-    return prof
+    #Retorna uma cópia do professor recém criado
+    return prof.copy()
 
 def mostrarProfessores(professores):
-    system('cls')
+    system('cls') #Limpa o Console
+    #Percorre todos os professores, exibindo cada um na tela
     for i, prof in enumerate(professores):
         printCor(f' Professor {i+1} '.center(30, '-'), 'azul')
         print(f'Id: {prof["id"]}')
@@ -145,7 +156,8 @@ def mostrarProfessores(professores):
         printCor(f'R${prof["salario"]:.2f}\n', 'verde')
 
 def mostrarAlunos(alunos):
-    system('cls')
+    system('cls') #Limpa o Console
+    #Percorre todos os alunos, exibindo cada um na tela
     for i, aluno in enumerate(alunos):
         printCor(f' Aluno {i+1} '.center(30, '-'), 'azul')
         print(f'RA: {aluno["ra"]}')
@@ -158,69 +170,86 @@ def mostrarAlunos(alunos):
 
         print(f'Notas: [', end='')
         if len(aluno['notas']) == 0: print(']')
+        #Percorre cada nota do aluno e muda a cor dela com base no valor
         for i, nota in enumerate(aluno['notas']):
-            if nota > 60: cor = 'verde'
+            if nota >= 60: cor = 'verde'
             elif nota < 50: cor = 'vermelho'
             else: cor = 'amarelo'
             printCor(nota, cor, False)
             if i != (len(aluno['notas']) - 1): print(', ', end='')
             else: print(']')
         
+        #Muda a cor do texto com base no valor da media
         print(f'Media: ', end='')
-        if aluno['media'] > 60: cor = 'verde'
+        if aluno['media'] >= 60: cor = 'verde'
         elif aluno['media'] < 50: cor = 'vermelho'
         else: cor = 'amarelo'
         printCor(f'{aluno["media"]:.1f}\n', cor)
 
 def atualizarSalas(alunos, professores):
     turmas = []
+    #Percorre todos os professores para identificar as salas existentes
     for prof in professores:
         for turma in prof['turmas']:
             if turma not in turmas: turmas.append(turma)
+    #Percorre todos os alunos também para identificar as salas existentes
     for aluno in alunos:
         if aluno['turma'] not in turmas: turmas.append(aluno['turma'])
 
+    #Organiza as turmas em ordem alfabetica [A, B, C...]
     turmas.sort()
     
     salas = []
+    #Percorre todas as turmas
     for turma in turmas:
         sala = {}
         sala['turma'] = turma
         sala['professores'] = []
+        #Percorre todos os professores
         for prof in professores:
+            #Percorre todas as turmas de um professor
             for turmaProf in prof['turmas']:
+                #Adiciona o professor na sala, caso a turma dele bata com a turma iterada
                 if turmaProf == turma: sala['professores'].append(prof)
 
         sala['alunos'] = []
+        #Percorre todos os alunos
         for aluno in alunos:
+            #Adiciona o aluno na sala, caso a turma dele bata com a turma iterada
             if aluno['turma'] == turma: sala['alunos'].append(aluno)
 
+        #Salva uma copia da sala no vetor salas
         salas.append(sala.copy())
     
+    #Retorna uma cópia das salas
     return salas[:]
 
 def mostrarSalas(turmas):
-    system('cls')
+    system('cls') #Limpa o Console
+    #Percorre todas as salas, mostrando cada uma na tela
     for sala in turmas:
         printCor(f' Turma {sala["turma"]} '.center(30, '-'), 'azul')
         printCor('-=- Professores -=-', 'roxo')
+        #Mostra o nome de cada professor pertencente a aquela sala
         for i, prof in enumerate(sala['professores']):
             print(f'{i+1} - {prof["nome"]}')
         
         printCor('-=- Alunos -=-', 'roxo')
+        #Mostra o nome de cada aluno pertencente a aquela sala
         for i, aluno in enumerate(sala['alunos']):
             print(f'{i+1} - {aluno["nome"]}')
         print()
 
 def localizarProfessor(professores):
-    mostrarProfessores(professores)
+    mostrarProfessores(professores) #Exibe todos os professores
     while True:
         try:
             printCor('-- [Digite cancelar para sair] --', 'amarelo')
             printCor('Digite o ID do professor: ', 'verde', False)
             id = input()
-            if id == 'cancelar': return None
-            id = int(id)
+            if id == 'cancelar': return None #Caso o usuario digite 'cancelar' retorna vazio
+            id = int(id) #Converte de str para int
+            #Percorre todos os professores em busca daquele que tenha determinado ID
             for prof in professores:
                 if id == prof['id']: return prof
             printCor('-=- Erro! Não foi possivel localizar este ID -=-', 'vermelho')
@@ -334,10 +363,11 @@ def editarAluno(aluno):
             else: print(']')
         
         print(f'Media: ', end='')
-        if aluno['media'] > 60: cor = 'verde'
+        if aluno['media'] >= 60: cor = 'verde'
         elif aluno['media'] < 50: cor = 'vermelho'
         else: cor = 'amarelo'
-        printCor(f'{aluno["media"]:.1f}\n', cor)
+        printCor(f'{aluno["media"]:.1f}', cor)
+        printCor(('-' * 30), 'azul')
 
         while True:
             printCor('-- [Digite cancelar para voltar] --', 'amarelo')
@@ -412,7 +442,6 @@ def editarAluno(aluno):
                 aluno['notas'] = notas[:]
                 aluno['media'] = sum(aluno['notas']) / len(aluno['notas'])
 
-
 alunos = [
     {'ra': 1, 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
     {'ra': 2, 'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
@@ -460,56 +489,56 @@ turmas = atualizarSalas(alunos, professores)
 while True:
     mostrarMenu('inicio')
     comando = pedirComando(4)
-    if comando == 1:
+    if comando == 1: #Cadastro
         while True:
             mostrarMenu('cadastro')
             comando = pedirComando(3)
-            if comando == 1:
+            if comando == 1: #Cadastro de Aluno
                 aluno = cadastrarAluno(alunos)
                 if aluno != None:
                     alunos.append(aluno.copy())
                     turmas = atualizarSalas(alunos, professores)
-            elif comando == 2:
+            elif comando == 2: #Cadastro de Professor
                 prof = cadastrarProfessor(professores)
                 if prof != None: 
                     professores.append(prof.copy())
                     turmas = atualizarSalas(alunos, professores)
-            else: break
+            else: break #Voltar
 
-    elif comando == 2:
+    elif comando == 2: #Relatorios
         while True:
             mostrarMenu('relatorios')
             comando = pedirComando(4)
-            if comando == 1:
+            if comando == 1: #Lista de Professores
                 mostrarProfessores(professores)
                 input('Pressione Enter para continuar...')
-            elif comando == 2:
+            elif comando == 2: #Lista de Alunos
                 mostrarAlunos(alunos)
                 input('Pressione Enter para continuar...')
-            elif comando == 3:
+            elif comando == 3: #Lista de Salas
                 mostrarSalas(turmas)
                 input('Pressione Enter para continuar...')
-            else: break
+            else: break #Voltar
 
-    elif comando == 3:
+    elif comando == 3: #Atualizar Dados
         while True:
             mostrarMenu('atualizacao')
             comando = pedirComando(3)
-            if comando == 1:
+            if comando == 1: #Atualizar Professor
                 prof = localizarProfessor(professores)
                 if prof != None:
                     prof = editarProfessor(prof)
                     if prof != None:
                         professores[localizarPosicaoProfessor(prof, professores)] = prof.copy()
                         atualizarSalas(alunos, professores)
-            elif comando == 2:
+            elif comando == 2: #Atualizar Aluno
                 aluno = localizarAluno(alunos)
                 if aluno != None:
                     aluno = editarAluno(aluno)
                     if aluno != None:
                         alunos[localizarPosicaoAluno(aluno, alunos)] = aluno.copy()
                         atualizarSalas(alunos, professores)
-            else: break
+            else: break #Voltar
 
-    else: break
+    else: break #Sair
 print('Finalizando Programa...')
