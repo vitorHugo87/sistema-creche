@@ -18,22 +18,30 @@ def mostrarMenu(menu):
         printCor(' Menu '.center(20, '-'), 'azul')
         print('1 - Cadastro')
         print('2 - Relatorios')
-        print('3 - Sair')
+        print('3 - Atualizar Dados')
+        print('4 - Sair')
         printCor(('-' * 20), 'azul')
     
-    if menu == 'cadastro':
+    elif menu == 'cadastro':
         printCor(' Cadastro '.center(25, '-'), 'azul')
         print('1 - Cadastro de Aluno')
         print('2 - Cadastro de Professor')
         print('3 - Voltar')
         printCor(('-' * 25), 'azul')
 
-    if menu == 'relatorios':
+    elif menu == 'relatorios':
         printCor(' Relatorios '.center(30, '-'), 'azul')
         print('1 - Lista de Professores')
         print('2 - Lista de Alunos')
         print('3 - Lista das Salas')
         print('4 - Voltar')
+        printCor(('-' * 30), 'azul')
+
+    elif menu == 'atualizacao':
+        printCor(' Atualização '.center(30, '-'), 'azul')
+        print('1 - Professor')
+        print('2 - Aluno')
+        print('3 - Voltar')
         printCor(('-' * 30), 'azul')
 
 def pedirComando(opcoes):
@@ -120,7 +128,7 @@ def cadastrarProfessor(professores):
             prof['salario'] = float(input('Salário: R$'))
             break
         except ValueError:
-            printCor('Erro! Valor invalido digitado!', 'vermelho')
+            printCor('-=- Erro! Valor invalido digitado! -=-', 'vermelho')
 
     return prof
 
@@ -202,6 +210,86 @@ def mostrarSalas(turmas):
             print(f'{i+1} - {aluno["nome"]}')
         print()
 
+def localizarProfessor(professores):
+    mostrarProfessores(professores)
+    while True:
+        try:
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            printCor('Digite o ID do professor: ', 'verde', False)
+            id = input()
+            if id == 'cancelar': return None
+            id = int(id)
+            for prof in professores:
+                if id == prof['id']: return prof
+            printCor('-=- Erro! Não foi possivel localizar este ID -=-', 'vermelho')
+        except ValueError:
+            printCor('-=- Erro! ID Invalido digitado', 'vermelho')
+
+def localizarPosicaoProfessor(professor, professores):
+    for i, prof in enumerate(professores):
+        if prof['id'] == professor['id']: return i
+    return -1
+
+def editarProfessor(professor):
+    professor = professor.copy()
+    while True:
+        system('cls')
+        printCor(f' Professor ID:{professor["id"]} '.center(30, '-'), 'azul')
+        print(f'Nome: {professor["nome"]}')
+        print('Turmas: ', end='')
+        printCor(professor['turmas'], 'roxo')
+        print('Salário: ', end='')
+        printCor(f'R${professor["salario"]:.2f}', 'verde')
+        printCor(('-' * 30), 'azul')
+
+        while True:
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            printCor('-- [Digite salvar para salvar alterações] --', 'amarelo')
+            printCor('Digite o nome do campo a ser atualizado: ', 'verde', False)
+            campo = input().lower().strip()
+            if campo == 'cancelar': return None
+            elif campo == 'salvar': return professor
+            elif campo not in ['nome', 'turmas', 'salario']:
+                printCor('-=- Erro! Campo Invalido informado -=-', 'vermelho')
+                continue
+            break
+
+        if campo == 'nome': professor['nome'] = input('Novo nome: ').title().strip()
+
+        elif campo == 'turmas':
+            backup = professor['turmas']
+            professor['turmas'] = []
+            while True:
+                printCor('-- [Digite cancelar para sair] --', 'amarelo')
+                printCor('-- [Digite parar para parar de adicionar turmas] --', 'amarelo')
+                turma = input('Turma: ')
+                if turma == 'cancelar':
+                    professor['turmas'] = backup[:]
+                    break
+                if turma == 'parar':
+                    if len(professor['turmas']) < 1:
+                        printCor('-=- Erro! Professor precisa possuir ao menos uma turma! -=-', 'vermelho')
+                        continue
+                    break
+                elif not turma.isalpha() or len(turma) > 1:
+                    printCor('-=- Erro! Turma Invalida! -=-', 'vermelho')
+                    continue
+                professor['turmas'].append(turma.upper())
+            professor['turmas'].sort()
+
+        else:
+            while True:
+                try:
+                    printCor('-- [Digite cancelar para sair] --', 'amarelo')
+                    salario = input('Salário: R$')
+                    if salario == 'cancelar': break
+                    salario = float(salario)
+                    professor['salario'] = salario
+                    break
+                except ValueError:
+                    printCor('-=- Erro! Valor invalido digitado! -=-', 'vermelho')
+
+
 alunos = [
     {'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
     {'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
@@ -248,7 +336,7 @@ turmas = atualizarSalas(alunos, professores)
 
 while True:
     mostrarMenu('inicio')
-    comando = pedirComando(3)
+    comando = pedirComando(4)
     if comando == 1:
         while True:
             mostrarMenu('cadastro')
@@ -278,7 +366,20 @@ while True:
             elif comando == 3:
                 mostrarSalas(turmas)
                 input('Pressione Enter para continuar...')
-            elif comando == 4: break
+            else: break
+
+    elif comando == 3:
+        while True:
+            mostrarMenu('atualizacao')
+            comando = pedirComando(3)
+            if comando == 1:
+                prof = localizarProfessor(professores)
+                if prof != None:
+                    prof = editarProfessor(prof)
+                    if prof != None:
+                        professores[localizarPosicaoProfessor(prof, professores)] = prof
+                        atualizarSalas(alunos, professores)
+            else: break
 
     else: break
 print('Finalizando Programa...')
