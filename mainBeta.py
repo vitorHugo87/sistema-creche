@@ -20,8 +20,19 @@ def exibicao(tela, userLevel):
             print('2 - Atualizar Dados')
             print('3 - Exclusão de usuario')
             print('4 - Relatorios')
+            print('5 - Sair')
             printCor(('-' * 30), 'azul')
-            return 4
+            return 5
+
+def pedirCmd(range):
+    while True:
+        try:
+            printCor('Comando: ', 'verde', False)
+            cmd = int(input())
+            if cmd < 1 or cmd > range: raise ValueError()
+            break
+        except ValueError:
+            printCor('-=- Erro! Valor Invalido Digitado -=-', 'vermelho')
 
 alunos = [
     {'ra': 1, 'senha': '123456', 'acesso': 'aluno', 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
@@ -49,4 +60,6 @@ profs = [
     {'id': 6, 'email': 'joao@gmail.com', 'senha': 'joao123', 'acesso': 'prof', 'nome': 'João Ribeiro', 'turmas': ['C'], 'salario': 2700.0}
 ]
 
-exibicao('menu', 'admin')
+while True:
+    opcoes = exibicao('menu', 'admin')
+    cmd = pedirCmd(opcoes)
