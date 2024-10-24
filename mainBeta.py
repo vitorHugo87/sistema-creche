@@ -13,8 +13,11 @@ def printCor(msg, cor, end=True):
     else: print(f'{cores[cor]}{msg}{cores["padrao"]}', end='')
 
 def exibicao(tela, userLevel):
+    limpaTela('cls')
+    range = 0
     if userLevel == 'admin':
         if tela == 'menu':
+            range = 5
             printCor(' MENU '.center(30, '-'), 'azul')
             print('1 - Cadastro')
             print('2 - Atualizar Dados')
@@ -22,7 +25,7 @@ def exibicao(tela, userLevel):
             print('4 - Relatorios')
             print('5 - Sair')
             printCor(('-' * 30), 'azul')
-            return 5
+    return pedirCmd(range)
 
 def pedirCmd(range):
     while True:
@@ -30,7 +33,7 @@ def pedirCmd(range):
             printCor('Comando: ', 'verde', False)
             cmd = int(input())
             if cmd < 1 or cmd > range: raise ValueError()
-            break
+            return cmd
         except ValueError:
             printCor('-=- Erro! Valor Invalido Digitado -=-', 'vermelho')
 
@@ -61,5 +64,4 @@ profs = [
 ]
 
 while True:
-    opcoes = exibicao('menu', 'admin')
-    cmd = pedirCmd(opcoes)
+    cmd = exibicao('menu', 'admin')
