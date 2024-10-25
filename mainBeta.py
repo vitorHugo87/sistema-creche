@@ -53,6 +53,14 @@ def exibicao(tela, userLevel):
             print('4 - Relatorios')
             print('5 - Sair')
             printCor(('-' * 30), 'azul')
+        if tela == 'cadastro':
+            range = 4
+            printCor(' CADASTRO '.center(30, '-'), 'azul')
+            print('1 - Aluno')
+            print('2 - Professor')
+            print('3 - Administrador')
+            print('4 - Voltar')
+            printCor(('-' * 30), 'azul')
     return pedirCmd(range)
 
 def pedirCmd(range):
@@ -74,20 +82,79 @@ def login(usuario, senha):
         for p in profs:
             if p['email'] == usuario and p['senha'] == senha: return p.copy()
         for a in admins:
-            if a['email'] == usuario and a['senha'] == senha: return a.copy
+            if a['email'] == usuario and a['senha'] == senha: return a.copy()
     limpaTela('cls')
     printCor('-=- Usuario ou Senha invalido! -=-', 'vermelho')
     return None
 
+def novoAluno():
+    aluno = {}
+    aluno['ra'] = alunos[-1]['ra'] + 1
+    aluno['senha'] = '123456'
+    aluno['acesso'] = 'aluno'
+
+    limpaTela('cls')
+
+    while True: #Solicitação e validação do nome
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        aluno['nome'] = input('Nome: ').title().strip()
+        if aluno['nome'] == 'Cancelar': return None
+        elif not aluno['nome'].replace(' ', '').isalpha():
+            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+    
+    while True: #Solicitação e validação da idade
+        try:
+            printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+            aluno['idade'] = input('Idade [Para menores de 1 ano digite 0]: ')
+            if aluno['idade'].lower() == 'cancelar': return None
+            aluno['idade'] = int(aluno['idade'])
+            if aluno['idade'] < 0: raise ValueError()
+            elif aluno['idade'] > 4:
+                printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
+                continue
+            break
+        except:
+            printCor('-=- Erro! Idade Invalida Digitada! -=-', 'vermelho')
+
+    while True: #Solicitação e validação do nome da mãe
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        aluno['mae'] = input('Nome da mãe: ').title().strip()
+        if aluno['mae'] == 'Cancelar': return None
+        elif not aluno['mae'].replace(' ', '').isalpha():
+            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+
+    while True: #Solicitação e validação da turma
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        aluno['turma'] = input('Turma: ').upper()
+        if aluno['turma'] == 'CANCELAR': return None
+        elif not aluno['turma'].isalpha() or len(aluno['turma']) != 1:
+            printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
+            continue
+        break
+
+    aluno['notas'] = []
+    aluno['media'] = 0.0
+    return aluno.copy()
 
 limpaTela('cls')
-
 user = None
 while user == None:
     usuario = input('Usuario [RA / Email]: ')
     senha = input('Senha: ')
     user = login(usuario, senha)
 
-
-while True:
-    cmd = exibicao('menu', 'admin')
+if user['acesso'] == 'admin':
+    while True:
+        cmd = exibicao('menu', 'admin')
+        if cmd == 1: #Cadastro
+            while True:
+                cmd = exibicao('cadastro', 'admin')
+                if cmd == 1: #Cadastro de Aluno
+                    aluno = novoAluno()
+                    if aluno != None: alunos.append(aluno)
+                else: break #Voltar
+        else: break #Sair
