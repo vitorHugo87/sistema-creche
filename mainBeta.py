@@ -140,6 +140,72 @@ def novoAluno():
     aluno['media'] = 0.0
     return aluno.copy()
 
+def novoProf():
+    prof = {}
+    prof['id'] = profs[-1]['id'] + 1
+
+    limpaTela('cls')
+
+    while True: #Solicitação e validação de email
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        prof['email'] = input('Email: ')
+        if prof['email'] == 'cancelar': return None
+        elif not '@' in prof['email']:
+            printCor('-=- Erro! Email Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+
+    while True: #Solicitação e validação de senha
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        prof['senha'] = input('Senha: ')
+        if prof['senha'] == 'cancelar': return None
+        elif len(prof['senha']) < 6:
+            printCor('-=- Erro! A senha deve ter ao minimo 6 caracteres -=-', 'vermelho')
+            continue
+        break
+
+    prof['acesso'] = 'prof'
+
+    while True: #Solicitação e validação do nome
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        prof['nome'] = input('Nome: ').title().strip()
+        if prof['nome'] == 'Cancelar': return None
+        elif not prof['nome'].replace(' ', '').isalpha():
+            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+
+    prof['turmas'] = []
+    while True: #Solicitação e validação de turmas
+        printCor('-- [Digite cancelar para sair] --', 'amarelo')
+        printCor('-- [Digite parar para parar de adicionar turmas] --', 'amarelo')
+        turma = input('Turma: ')
+        if turma == 'cancelar': return None
+        if turma == 'parar':
+            if len(prof['turmas']) < 1:
+                printCor('-=- Erro! Professor precisa possuir ao menos uma turma! -=-', 'vermelho')
+                continue
+            break
+        elif not turma.isalpha() or len(turma) > 1:
+            printCor('-=- Erro! Turma Invalida! -=-', 'vermelho')
+            continue
+        prof['turmas'].append(turma.upper())
+    prof['turmas'].sort()
+
+    while True: #Solicitação e validação de salario
+        try:
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            prof['salario'] = input('Salario: ')
+            if prof['salario'] == 'cancelar': return None
+            prof['salario'] = float(prof['salario'])
+            if prof['salario'] < 0: raise ValueError()
+            break
+        except ValueError:
+            printCor('-=- Erro! Valor invalido digitado -=-', 'vermelho')
+
+    return prof.copy()
+
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -156,5 +222,10 @@ if user['acesso'] == 'admin':
                 if cmd == 1: #Cadastro de Aluno
                     aluno = novoAluno()
                     if aluno != None: alunos.append(aluno)
+                elif cmd == 2: #Cadastro de Prof
+                    prof = novoProf()
+                    if prof != None: profs.append(prof)
+                    print(profs)
+                    input()
                 else: break #Voltar
         else: break #Sair
