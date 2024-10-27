@@ -315,47 +315,32 @@ def mostraAdmins():
         printCor(('-' * 30) + '\n', 'azul')
 
 def seleciona(entidade):
-    if entidade == 'aluno':
-        mostraAlunos()
-        while True:
-            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-            ra = input('RA: ')
-            if ra == 'cancelar': return None
-            try: ra = int(ra)
-            except ValueError:
-                printCor('-=- Erro! RA Invalido Digitado! -=-', 'vermelho')
-                continue
-            for a in alunos:
-                if ra == a['ra']: return a.copy()
-            printCor('-=- Erro! RA Não Encontrado! -=-', 'vermelho')
+    if entidade == 'aluno': mostraAlunos()
+    elif entidade == 'professor': mostraProfs()
+    elif entidade == 'admin': mostraAdmins()
 
-    elif entidade == 'professor':
-        mostraProfs()
-        while True:
+    while True:
             printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-            id = input('ID: ')
+            id = input(f'{"RA" if entidade == "aluno" else "ID"}: ')
             if id == 'cancelar': return None
             try: id = int(id)
             except ValueError:
-                printCor('-=- Erro! ID Invalido Digitado! -=-', 'vermelho')
+                printCor(f'-=- Erro! {"RA" if entidade == "aluno" else "ID"} Invalido Digitado! -=-', 'vermelho')
                 continue
-            for p in profs:
-                if id == p['id']: return p.copy()
-            printCor('-=- Erro! ID Não Encontrado! -=-', 'vermelho')
 
-    elif entidade == 'admin':
-        mostraAdmins()
-        while True:
-            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-            id = input('ID: ')
-            if id == 'cancelar': return None
-            try: id = int(id)
-            except ValueError:
-                printCor('-=- Erro! ID Invalido Digitado! -=-', 'vermelho')
-                continue
-            for a in admins:
-                if id == a['id']: return a.copy()
-            printCor('-=- Erro! ID Não Encontrado! -=-', 'vermelho')
+            if entidade == 'aluno':
+                for a in alunos:
+                    if id == a['ra']: return a.copy()
+
+            elif entidade == 'professor':
+                for p in profs:
+                    if id == p['id']: return p.copy()
+
+            elif entidade == 'admin':
+                for a in admins:
+                    if id == a['id']: return a.copy()
+
+            printCor(f'-=- Erro! {"RA" if entidade == "aluno" else "ID"} Não Encontrado! -=-', 'vermelho')
 
 limpaTela('cls')
 user = None
