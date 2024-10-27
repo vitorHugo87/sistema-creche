@@ -1,7 +1,7 @@
 from os import system as limpaTela
 
 admins = [
-    {'id': 1, 'email': 'admin@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'Walter White'}
+    {'id': 1, 'email': 'admin@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'Walter White', 'salario': 3500.0}
 ]
 alunos = [
     {'ra': 1, 'senha': '123456', 'acesso': 'aluno', 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
@@ -247,6 +247,17 @@ def novoAdm():
             printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
             continue
         break
+
+    while True: #Solicitação e validação de salario
+        try:
+            printCor('-- [Digite cancelar para sair] --', 'amarelo')
+            adm['salario'] = input('Salario: ')
+            if adm['salario'] == 'cancelar': return None
+            adm['salario'] = float(adm['salario'])
+            if adm['salario'] < 0: raise ValueError()
+            break
+        except ValueError:
+            printCor('-=- Erro! Valor invalido digitado -=-', 'vermelho')
     
     return adm.copy()
 
@@ -292,6 +303,17 @@ def mostraProfs():
         printCor(f'R${p["salario"]:.2f}', 'verde')
         printCor(('-' * 30) + '\n', 'azul')
 
+def mostraAdmins():
+    limpaTela('cls')
+    for a in admins:
+        printCor(f' ID: {a["id"]} '.center(30, '-'), 'azul')
+        print(f'Email: {a["email"]}')
+        print(f'Nome: {a["nome"]}')
+
+        print('Salario: ', end='')
+        printCor(f'R${a["salario"]:.2f}', 'verde')
+        printCor(('-' * 30) + '\n', 'azul')
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -323,6 +345,9 @@ if user['acesso'] == 'admin':
                     input('Pressione Enter para continuar...')
                 elif cmd == 2: #Lista de Professores
                     mostraProfs()
+                    input('Pressione Enter para continuar...')
+                elif cmd == 3: #Lista de Admins
+                    mostraAdmins()
                     input('Pressione Enter para continuar...')
                 else: break #Voltar
         else: break #Sair
