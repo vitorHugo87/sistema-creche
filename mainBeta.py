@@ -53,6 +53,7 @@ def exibicao(tela, userLevel):
             print('4 - Relatorios')
             print('5 - Sair')
             printCor(('-' * 30), 'azul')
+
         elif tela == 'cadastro':
             range = 4
             printCor(' CADASTRO '.center(30, '-'), 'azul')
@@ -61,6 +62,16 @@ def exibicao(tela, userLevel):
             print('3 - Administrador')
             print('4 - Voltar')
             printCor(('-' * 30), 'azul')
+
+        elif tela == 'exclusao':
+            range = 4
+            printCor(' EXCLUSÃO '.center(30, '-'), 'azul')
+            print('1 - Aluno')
+            print('2 - Professor')
+            print('3 - Administrador')
+            print('4 - Voltar')
+            printCor(('-' * 30), 'azul')
+
         elif tela == 'relatorios':
             range = 4
             printCor(' RELATORIOS '.center(30, '-'), 'azul')
@@ -69,6 +80,7 @@ def exibicao(tela, userLevel):
             print('3 - Lista de Admins')
             print('4 - Voltar')
             printCor(('-' * 30), 'azul')
+
     return pedirCmd(range)
 
 def pedirCmd(range):
@@ -261,33 +273,36 @@ def novoAdm():
     
     return adm.copy()
 
+def mostraAluno(aluno):
+    printCor(f' RA: {aluno["ra"]} '.center(30, '-'), 'azul')
+    print(f'Nome: {aluno["nome"]}')
+    print(f'Idade: {aluno["idade"]}')
+    print(f'Mãe: {aluno["mae"]}')
+
+    print('Turma: ', end='')
+    printCor(aluno["turma"], 'roxo')
+
+    print('Notas: [', end='')
+    for i, nota in enumerate(aluno['notas']):
+        if nota >= 60: cor = 'verde'
+        elif nota < 50: cor = 'vermelho'
+        else: cor = 'amarelo'
+        printCor(nota, cor, False)
+        if i != len(aluno['notas']) - 1: print(', ', end='')
+    print(']')
+
+    print('Media: ', end='')
+    if aluno['media'] >= 60: cor = 'verde'
+    elif aluno['media'] < 50: cor = 'vermelho'
+    else: cor = 'amarelo'
+    printCor(f'{aluno["media"]:.1f}', cor)
+        
+    printCor(('-' * 30) + '\n', 'azul')
+
 def mostraAlunos():
     limpaTela('cls')
     for a in alunos:
-        printCor(f' RA: {a["ra"]} '.center(30, '-'), 'azul')
-        print(f'Nome: {a["nome"]}')
-        print(f'Idade: {a["idade"]}')
-        print(f'Mãe: {a["mae"]}')
-
-        print('Turma: ', end='')
-        printCor(a["turma"], 'roxo')
-
-        print('Notas: [', end='')
-        for i, nota in enumerate(a['notas']):
-            if nota >= 60: cor = 'verde'
-            elif nota < 50: cor = 'vermelho'
-            else: cor = 'amarelo'
-            printCor(nota, cor, False)
-            if i != len(a['notas']) - 1: print(', ', end='')
-        print(']')
-
-        print('Media: ', end='')
-        if a['media'] >= 60: cor = 'verde'
-        elif a['media'] < 50: cor = 'vermelho'
-        else: cor = 'amarelo'
-        printCor(f'{a["media"]:.1f}', cor)
-        
-        printCor(('-' * 30) + '\n', 'azul')
+        mostraAluno(a)       
 
 def mostraProfs():
     limpaTela('cls')
@@ -342,6 +357,23 @@ def seleciona(entidade):
 
             printCor(f'-=- Erro! {"RA" if entidade == "aluno" else "ID"} Não Encontrado! -=-', 'vermelho')
 
+def excluirAluno(aluno):
+    limpaTela('cls')
+    mostraAluno(aluno)
+    while True:
+        printCor('Tem certeza que deseja excluir esse aluno? [S/N]: ', 'vermelho', False)
+        cmd = input().upper().strip()
+        if cmd not in 'SN':
+            printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
+            continue
+        break
+    if cmd == 'N': return None
+    else:
+        for i, a in enumerate(alunos):
+            if aluno['ra'] == a['ra']:
+                del alunos[i]
+                return None
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -364,6 +396,13 @@ if user['acesso'] == 'admin':
                 elif cmd == 3: #Cadastro de Adm
                     adm = novoAdm()
                     if adm != None: admins.append(adm.copy())
+                else: break #Voltar
+        elif cmd == 3: #Exclusão
+            while True:
+                cmd = exibicao('exclusao', 'admin')
+                if cmd == 1: #Exclusão de Aluno
+                    aluno = seleciona('aluno')
+                    if aluno != None: excluirAluno(aluno)
                 else: break #Voltar
         elif cmd == 4: #Relatorios
             while True:
