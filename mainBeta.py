@@ -7,16 +7,16 @@ alunos = [
     {'ra': 1, 'senha': '123456', 'acesso': 'aluno', 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
     {'ra': 2, 'senha': '654321', 'acesso': 'aluno', 'nome': 'Laura Souza', 'idade': 3, 'mae': 'Mariana Souza', 'turma': 'A', 'notas': [65, 45], 'media': 55},
     {'ra': 3, 'senha': '112233', 'acesso': 'aluno', 'nome': 'Pedro Oliveira', 'idade': 2, 'mae': 'Ana Oliveira', 'turma': 'A', 'notas': [70, 60], 'media': 65},
-    {'ra': 10, 'senha': '789123', 'acesso': 'aluno', 'nome': 'Mariana Silva', 'idade': 3, 'mae': 'Luciana Silva', 'turma': 'A', 'notas': [85, 80], 'media': 82.5},
+    {'ra': 4, 'senha': '789123', 'acesso': 'aluno', 'nome': 'Mariana Silva', 'idade': 3, 'mae': 'Luciana Silva', 'turma': 'A', 'notas': [85, 80], 'media': 82.5},
     
-    {'ra': 4, 'senha': '445566', 'acesso': 'aluno', 'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
-    {'ra': 5, 'senha': '778899', 'acesso': 'aluno', 'nome': 'Sofia Santos', 'idade': 2, 'mae': 'Bruna Santos', 'turma': 'B', 'notas': [90, 80], 'media': 85},
-    {'ra': 6, 'senha': '123789', 'acesso': 'aluno', 'nome': 'Rafael Ferreira', 'idade': 1, 'mae': 'Juliana Ferreira', 'turma': 'B', 'notas': [60, 50], 'media': 55},
-    {'ra': 11, 'senha': '987321', 'acesso': 'aluno', 'nome': 'Felipe Lopes', 'idade': 2, 'mae': 'Carla Lopes', 'turma': 'B', 'notas': [70, 60], 'media': 65},
+    {'ra': 5, 'senha': '445566', 'acesso': 'aluno', 'nome': 'Lucas Lima', 'idade': 1, 'mae': 'Fernanda Lima', 'turma': 'B', 'notas': [50, 40], 'media': 45},
+    {'ra': 6, 'senha': '778899', 'acesso': 'aluno', 'nome': 'Sofia Santos', 'idade': 2, 'mae': 'Bruna Santos', 'turma': 'B', 'notas': [90, 80], 'media': 85},
+    {'ra': 7, 'senha': '123789', 'acesso': 'aluno', 'nome': 'Rafael Ferreira', 'idade': 1, 'mae': 'Juliana Ferreira', 'turma': 'B', 'notas': [60, 50], 'media': 55},
+    {'ra': 8, 'senha': '987321', 'acesso': 'aluno', 'nome': 'Felipe Lopes', 'idade': 2, 'mae': 'Carla Lopes', 'turma': 'B', 'notas': [70, 60], 'media': 65},
     
-    {'ra': 7, 'senha': '987654', 'acesso': 'aluno', 'nome': 'Isabela Martins', 'idade': 0, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90},
-    {'ra': 8, 'senha': '321987', 'acesso': 'aluno', 'nome': 'Giovanna Costa', 'idade': 1, 'mae': 'Patrícia Costa', 'turma': 'C', 'notas': [80, 75], 'media': 77.5},
-    {'ra': 9, 'senha': '654123', 'acesso': 'aluno', 'nome': 'Arthur Ribeiro', 'idade': 2, 'mae': 'Roberta Ribeiro', 'turma': 'C', 'notas': [50, 45], 'media': 47.5},
+    {'ra': 9, 'senha': '987654', 'acesso': 'aluno', 'nome': 'Isabela Martins', 'idade': 0, 'mae': 'Cláudia Martins', 'turma': 'C', 'notas': [95, 85], 'media': 90},
+    {'ra': 10, 'senha': '321987', 'acesso': 'aluno', 'nome': 'Giovanna Costa', 'idade': 1, 'mae': 'Patrícia Costa', 'turma': 'C', 'notas': [80, 75], 'media': 77.5},
+    {'ra': 11, 'senha': '654123', 'acesso': 'aluno', 'nome': 'Arthur Ribeiro', 'idade': 2, 'mae': 'Roberta Ribeiro', 'turma': 'C', 'notas': [50, 45], 'media': 47.5},
     {'ra': 12, 'senha': '321654', 'acesso': 'aluno', 'nome': 'Ana Clara Lima', 'idade': 1, 'mae': 'Sônia Lima', 'turma': 'C', 'notas': [55, 50], 'media': 52.5}
 ]
 profs = [
@@ -53,12 +53,20 @@ def exibicao(tela, userLevel):
             print('4 - Relatorios')
             print('5 - Sair')
             printCor(('-' * 30), 'azul')
-        if tela == 'cadastro':
+        elif tela == 'cadastro':
             range = 4
             printCor(' CADASTRO '.center(30, '-'), 'azul')
             print('1 - Aluno')
             print('2 - Professor')
             print('3 - Administrador')
+            print('4 - Voltar')
+            printCor(('-' * 30), 'azul')
+        elif tela == 'relatorios':
+            range = 4
+            printCor(' RELATORIOS '.center(30, '-'), 'azul')
+            print('1 - Lista de Alunos')
+            print('2 - Lista de Professores')
+            print('3 - Lista de Admins')
             print('4 - Voltar')
             printCor(('-' * 30), 'azul')
     return pedirCmd(range)
@@ -209,6 +217,8 @@ def novoAdm():
     adm = {}
     adm['id'] = admins[-1]['id'] + 1
 
+    limpaTela('cls')
+
     while True: #Solicitação e validação de email
         printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
         adm['email'] = input('Email: ')
@@ -240,6 +250,34 @@ def novoAdm():
     
     return adm.copy()
 
+def mostraAlunos():
+    limpaTela('cls')
+    for a in alunos:
+        printCor(f' RA: {a["ra"]} '.center(30, '-'), 'azul')
+        print(f'Nome: {a["nome"]}')
+        print(f'Idade: {a["idade"]}')
+        print(f'Mãe: {a["mae"]}')
+
+        print('Turma: ', end='')
+        printCor(a["turma"], 'roxo')
+
+        print('Notas: [', end='')
+        for i, nota in enumerate(a['notas']):
+            if nota >= 60: cor = 'verde'
+            elif nota < 50: cor = 'vermelho'
+            else: cor = 'amarelo'
+            printCor(nota, cor, False)
+            if i != len(a['notas']) - 1: print(', ', end='')
+        print(']')
+
+        print('Media: ', end='')
+        if a['media'] >= 60: cor = 'verde'
+        elif a['media'] < 50: cor = 'vermelho'
+        else: cor = 'amarelo'
+        printCor(f'{a["media"]:.1f}', cor)
+        
+        printCor(('-' * 30) + '\n', 'azul')
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -263,4 +301,11 @@ if user['acesso'] == 'admin':
                     adm = novoAdm()
                     if adm != None: admins.append(adm.copy())
                 else: break #Voltar
+        elif cmd == 4: #Relatorios
+            while True:
+                cmd = exibicao('relatorios', 'admin')
+                if cmd == 1: #Lista de Alunos
+                    mostraAlunos()
+                    input('Pressione Enter para continuar...')
+                else: break
         else: break #Sair
