@@ -205,6 +205,40 @@ def novoProf():
 
     return prof.copy()
 
+def novoAdm():
+    adm = {}
+    adm['id'] = admins[-1]['id'] + 1
+
+    while True: #Solicitação e validação de email
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        adm['email'] = input('Email: ')
+        if adm['email'] == 'cancelar': return None
+        elif not '@' in adm['email']:
+            printCor('-=- Erro! Email Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+
+    while True: #Solicitação e validação de senha
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        adm['senha'] = input('Senha: ')
+        if adm['senha'] == 'cancelar': return None
+        elif len(adm['senha']) < 6:
+            printCor('-=- Erro! A senha deve ter ao minimo 6 caracteres -=-', 'vermelho')
+            continue
+        break
+
+    adm['acesso'] = 'admin'
+
+    while True: #Solicitação e validação do nome
+        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
+        adm['nome'] = input('Nome: ').title().strip()
+        if adm['nome'] == 'Cancelar': return None
+        elif not adm['nome'].replace(' ', '').isalpha():
+            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+            continue
+        break
+    
+    return adm.copy()
 
 limpaTela('cls')
 user = None
@@ -221,11 +255,12 @@ if user['acesso'] == 'admin':
                 cmd = exibicao('cadastro', 'admin')
                 if cmd == 1: #Cadastro de Aluno
                     aluno = novoAluno()
-                    if aluno != None: alunos.append(aluno)
+                    if aluno != None: alunos.append(aluno.copy())
                 elif cmd == 2: #Cadastro de Prof
                     prof = novoProf()
-                    if prof != None: profs.append(prof)
-                    print(profs)
-                    input()
+                    if prof != None: profs.append(prof.copy())
+                elif cmd == 3: #Cadastro de Adm
+                    adm = novoAdm()
+                    if adm != None: admins.append(adm.copy())
                 else: break #Voltar
         else: break #Sair
