@@ -278,6 +278,20 @@ def mostraAlunos():
         
         printCor(('-' * 30) + '\n', 'azul')
 
+def mostraProfs():
+    limpaTela('cls')
+    for p in profs:
+        printCor(f' ID: {p["id"]} '.center(30, '-'), 'azul')
+        print(f'Nome: {p["nome"]}')
+        print(f'Email: {p["email"]}')
+
+        print('Turmas: ', end='')
+        printCor(p["turmas"], 'roxo')
+
+        print('Salario: ', end='')
+        printCor(f'R${p["salario"]:.2f}', 'verde')
+        printCor(('-' * 30) + '\n', 'azul')
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -307,5 +321,8 @@ if user['acesso'] == 'admin':
                 if cmd == 1: #Lista de Alunos
                     mostraAlunos()
                     input('Pressione Enter para continuar...')
-                else: break
+                elif cmd == 2: #Lista de Professores
+                    mostraProfs()
+                    input('Pressione Enter para continuar...')
+                else: break #Voltar
         else: break #Sair
