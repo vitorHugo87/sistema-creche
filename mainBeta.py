@@ -49,7 +49,7 @@ def exibicao(tela, userLevel):
             printCor(' MENU '.center(30, '-'), 'azul')
             print('1 - Cadastro')
             print('2 - Atualizar Dados')
-            print('3 - Exclusão de usuario')
+            print('3 - Exclusão de Usuario')
             print('4 - Relatorios')
             print('5 - Sair')
             printCor(('-' * 30), 'azul')
@@ -313,6 +313,49 @@ def mostraAdmins():
         print('Salario: ', end='')
         printCor(f'R${a["salario"]:.2f}', 'verde')
         printCor(('-' * 30) + '\n', 'azul')
+
+def seleciona(entidade):
+    if entidade == 'aluno':
+        mostraAlunos()
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            ra = input('RA: ')
+            if ra == 'cancelar': return None
+            try: ra = int(ra)
+            except ValueError:
+                printCor('-=- Erro! RA Invalido Digitado! -=-', 'vermelho')
+                continue
+            for a in alunos:
+                if ra == a['ra']: return a.copy()
+            printCor('-=- Erro! RA Não Encontrado! -=-', 'vermelho')
+
+    elif entidade == 'professor':
+        mostraProfs()
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            id = input('ID: ')
+            if id == 'cancelar': return None
+            try: id = int(id)
+            except ValueError:
+                printCor('-=- Erro! ID Invalido Digitado! -=-', 'vermelho')
+                continue
+            for p in profs:
+                if id == p['id']: return p.copy()
+            printCor('-=- Erro! ID Não Encontrado! -=-', 'vermelho')
+
+    elif entidade == 'admin':
+        mostraAdmins()
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            id = input('ID: ')
+            if id == 'cancelar': return None
+            try: id = int(id)
+            except ValueError:
+                printCor('-=- Erro! ID Invalido Digitado! -=-', 'vermelho')
+                continue
+            for a in admins:
+                if id == a['id']: return a.copy()
+            printCor('-=- Erro! ID Não Encontrado! -=-', 'vermelho')
 
 limpaTela('cls')
 user = None
