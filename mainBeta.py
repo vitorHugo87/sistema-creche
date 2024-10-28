@@ -1,7 +1,8 @@
 from os import system as limpaTela
 
 admins = [
-    {'id': 1, 'email': 'admin@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'Walter White', 'salario': 3500.0}
+    {'id': 1, 'email': 'admin@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'Walter White', 'salario': 3500.0},
+    {'id': 2, 'email': 'admin2@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'John Lark', 'salario': 4700.0}
 ]
 alunos = [
     {'ra': 1, 'senha': '123456', 'acesso': 'aluno', 'nome': 'Heitor Pereira', 'idade': 2, 'mae': 'Heloisa Pereira', 'turma': 'A', 'notas': [85, 75], 'media': 80},
@@ -321,16 +322,19 @@ def mostraProfs():
     for p in profs:
         mostraProf(p)
 
+def mostraAdmin(admin):
+    printCor(f' ID: {admin["id"]} '.center(30, '-'), 'azul')
+    print(f'Email: {admin["email"]}')
+    print(f'Nome: {admin["nome"]}')
+
+    print('Salario: ', end='')
+    printCor(f'R${admin["salario"]:.2f}', 'verde')
+    printCor(('-' * 30) + '\n', 'azul')
+
 def mostraAdmins():
     limpaTela('cls')
     for a in admins:
-        printCor(f' ID: {a["id"]} '.center(30, '-'), 'azul')
-        print(f'Email: {a["email"]}')
-        print(f'Nome: {a["nome"]}')
-
-        print('Salario: ', end='')
-        printCor(f'R${a["salario"]:.2f}', 'verde')
-        printCor(('-' * 30) + '\n', 'azul')
+        mostraAdmin(a)
 
 def seleciona(entidade):
     if entidade == 'aluno': mostraAlunos()
@@ -394,6 +398,23 @@ def excluirProf(prof):
                 del profs[i]
                 return None
 
+def excluirAdmin(admin):
+    limpaTela('cls')
+    mostraAdmin(admin)
+    while True:
+        printCor('Tem certeza que deseja excluir esse administrador? [S/N]: ', 'vermelho', False)
+        cmd = input().upper().strip()
+        if cmd not in 'SN':
+            printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
+            continue
+        break
+    if cmd == 'N': return None
+    else:
+        for i, a in enumerate(admins):
+            if admin['id'] == a['id']:
+                del admins[i]
+                return None
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -426,6 +447,9 @@ if user['acesso'] == 'admin':
                 elif cmd == 2: #Exclusão de Professor
                     prof = seleciona('professor')
                     if prof != None: excluirProf(prof)
+                elif cmd == 3: #Exclusão de Administrador
+                    admin = seleciona('admin')
+                    if admin != None: excluirAdmin(admin)
                 else: break #Voltar
         elif cmd == 4: #Relatorios
             while True:
