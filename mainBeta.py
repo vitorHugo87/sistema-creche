@@ -304,19 +304,22 @@ def mostraAlunos():
     for a in alunos:
         mostraAluno(a)       
 
+def mostraProf(prof):
+    printCor(f' ID: {prof["id"]} '.center(30, '-'), 'azul')
+    print(f'Nome: {prof["nome"]}')
+    print(f'Email: {prof["email"]}')
+
+    print('Turmas: ', end='')
+    printCor(prof["turmas"], 'roxo')
+
+    print('Salario: ', end='')
+    printCor(f'R${prof["salario"]:.2f}', 'verde')
+    printCor(('-' * 30) + '\n', 'azul')
+
 def mostraProfs():
     limpaTela('cls')
     for p in profs:
-        printCor(f' ID: {p["id"]} '.center(30, '-'), 'azul')
-        print(f'Nome: {p["nome"]}')
-        print(f'Email: {p["email"]}')
-
-        print('Turmas: ', end='')
-        printCor(p["turmas"], 'roxo')
-
-        print('Salario: ', end='')
-        printCor(f'R${p["salario"]:.2f}', 'verde')
-        printCor(('-' * 30) + '\n', 'azul')
+        mostraProf(p)
 
 def mostraAdmins():
     limpaTela('cls')
@@ -374,6 +377,23 @@ def excluirAluno(aluno):
                 del alunos[i]
                 return None
 
+def excluirProf(prof):
+    limpaTela('cls')
+    mostraProf(prof)
+    while True:
+        printCor('Tem certeza que deseja excluir esse professor? [S/N]: ', 'vermelho', False)
+        cmd = input().upper().strip()
+        if cmd not in 'SN':
+            printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
+            continue
+        break
+    if cmd == 'N': return None
+    else:
+        for i, p in enumerate(profs):
+            if prof['id'] == p['id']:
+                del profs[i]
+                return None
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -403,6 +423,9 @@ if user['acesso'] == 'admin':
                 if cmd == 1: #Exclusão de Aluno
                     aluno = seleciona('aluno')
                     if aluno != None: excluirAluno(aluno)
+                elif cmd == 2: #Exclusão de Professor
+                    prof = seleciona('professor')
+                    if prof != None: excluirProf(prof)
                 else: break #Voltar
         elif cmd == 4: #Relatorios
             while True:
