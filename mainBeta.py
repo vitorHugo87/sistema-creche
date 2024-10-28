@@ -364,56 +364,42 @@ def seleciona(entidade):
 
             printCor(f'-=- Erro! {"RA" if entidade == "aluno" else "ID"} Não Encontrado! -=-', 'vermelho')
 
-def excluirAluno(aluno):
+def excluir(entidade):
+    tipo = entidade['acesso']
+    
     limpaTela('cls')
-    mostraAluno(aluno)
-    while True:
-        printCor('Tem certeza que deseja excluir esse aluno? [S/N]: ', 'vermelho', False)
-        cmd = input().upper().strip()
-        if cmd not in 'SN':
-            printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
-            continue
-        break
-    if cmd == 'N': return None
-    else:
-        for i, a in enumerate(alunos):
-            if aluno['ra'] == a['ra']:
-                del alunos[i]
-                return None
+    if tipo == 'aluno': mostraAluno(entidade)
+    elif tipo == 'prof': mostraProf(entidade)
+    elif tipo == 'admin': mostraAdmin(entidade)
 
-def excluirProf(prof):
-    limpaTela('cls')
-    mostraProf(prof)
     while True:
-        printCor('Tem certeza que deseja excluir esse professor? [S/N]: ', 'vermelho', False)
+        printCor(f'Tem certeza que deseja excluir esse {tipo}? [S/N]: ', 'vermelho', False)
         cmd = input().upper().strip()
         if cmd not in 'SN':
             printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
             continue
         break
-    if cmd == 'N': return None
-    else:
-        for i, p in enumerate(profs):
-            if prof['id'] == p['id']:
-                del profs[i]
-                return None
 
-def excluirAdmin(admin):
-    limpaTela('cls')
-    mostraAdmin(admin)
-    while True:
-        printCor('Tem certeza que deseja excluir esse administrador? [S/N]: ', 'vermelho', False)
-        cmd = input().upper().strip()
-        if cmd not in 'SN':
-            printCor('-=- Erro! Comando Invalido Digitado!', 'vermelho')
-            continue
-        break
     if cmd == 'N': return None
     else:
-        for i, a in enumerate(admins):
-            if admin['id'] == a['id']:
-                del admins[i]
-                return None
+        if tipo == 'aluno':
+            for i, a in enumerate(alunos):
+                if entidade['ra'] == a['ra']:
+                    del alunos[i]
+                    return None
+
+        elif tipo == 'prof':
+            for i, p in enumerate(profs):
+                if entidade['id'] == p['id']:
+                    del profs[i]
+                    return None
+                    
+        elif tipo == 'admin':
+            for i, a in enumerate(admins):
+                if entidade['id'] == a['id']:
+                    del admins[i]
+                    return None
+
 
 limpaTela('cls')
 user = None
@@ -443,13 +429,13 @@ if user['acesso'] == 'admin':
                 cmd = exibicao('exclusao', 'admin')
                 if cmd == 1: #Exclusão de Aluno
                     aluno = seleciona('aluno')
-                    if aluno != None: excluirAluno(aluno)
+                    if aluno != None: excluir(aluno)
                 elif cmd == 2: #Exclusão de Professor
                     prof = seleciona('professor')
-                    if prof != None: excluirProf(prof)
+                    if prof != None: excluir(prof)
                 elif cmd == 3: #Exclusão de Administrador
                     admin = seleciona('admin')
-                    if admin != None: excluirAdmin(admin)
+                    if admin != None: excluir(admin)
                 else: break #Voltar
         elif cmd == 4: #Relatorios
             while True:
