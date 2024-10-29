@@ -64,6 +64,15 @@ def exibicao(tela, userLevel):
             print('4 - Voltar')
             printCor(('-' * 30), 'azul')
 
+        elif tela == 'atualizacao':
+            range = 4
+            printCor(' ATUALIZAÇÃO '.center(30, '-'), 'azul')
+            print('1 - Aluno')
+            print('2 - Professor')
+            print('3 - Administrador')
+            print('4 - Voltar')
+            printCor(('-' * 30), 'azul')
+
         elif tela == 'exclusao':
             range = 4
             printCor(' EXCLUSÃO '.center(30, '-'), 'azul')
@@ -400,6 +409,97 @@ def excluir(entidade):
                     del admins[i]
                     return None
 
+def acharIndex(entidade):
+    if entidade['acesso'] == 'aluno':
+        for i, a, in enumerate(alunos):
+            if a['ra'] == entidade['ra']: return i
+
+def editarAluno(aluno):
+    while True:
+        limpaTela('cls')
+        mostraAluno(aluno)
+        
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            printCor('-- [Digite (salvar) para salvar alterações] --', 'amarelo')
+            campo = input('Digite o campo a ser alterado: ')
+            if campo == 'cancelar': return None
+            elif campo == 'salvar': return aluno.copy()
+            elif campo not in ['nome', 'idade', 'mae', 'turma', 'notas', 'media']:
+                printCor('-=- Erro! Campo Invalido Digitado! -=-', 'vermelho')
+                continue
+            elif campo == 'media':
+                printCor('-=- Erro! A média é calculada automaticamente com base nas notas! -=-', 'vermelho')
+                continue
+            break
+
+        if campo == 'nome':
+            while True: #Solicitação e validação do nome
+                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+                nome = input('Nome: ').title().strip()
+                if nome == 'Cancelar': break
+                elif not nome.replace(' ', '').isalpha():
+                    printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+                    continue
+                aluno['nome'] = nome
+                break
+        
+        elif campo == 'idade':
+            while True: #Solicitação e validação da idade
+                try:
+                    printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+                    idade = input('Idade [Para menores de 1 ano digite 0]: ')
+                    if idade.lower() == 'cancelar': return None
+                    idade = int(idade)
+                    if idade < 0: raise ValueError()
+                    elif idade > 4:
+                        printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
+                        continue
+                    aluno['idade'] = idade
+                    break
+                except:
+                    printCor('-=- Erro! Idade Invalida Digitada! -=-', 'vermelho')
+
+        elif campo == 'mae':
+            while True: #Solicitação e validação do nome da mãe
+                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+                mae = input('Nome da mãe: ').title().strip()
+                if mae == 'Cancelar': break
+                elif not mae.replace(' ', '').isalpha():
+                    printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
+                    continue
+                aluno['mae'] = mae
+                break
+
+        elif campo == 'turma':
+            while True: #Solicitação e validação da turma
+                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+                turma = input('Turma: ').upper()
+                if turma == 'CANCELAR': return None
+                elif not turma.isalpha() or len(turma) != 1:
+                    printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
+                    continue
+                aluno['turma'] = turma
+                break
+
+        elif campo == 'notas':
+            notas = []
+            while True:
+                try:
+                    printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+                    printCor('-- [Digite (parar) para encerrar a atribuição de notas] --', 'amarelo')
+                    nota = input()
+                    if nota.lower() == 'cancelar': break
+                    elif nota.lower() == 'parar':
+                        aluno['notas'] = notas[:]
+                        aluno['media'] = sum(notas) / len(notas)
+                        break
+                    nota = float(nota)
+                    if nota < 0 or nota > 100: raise ValueError()
+                    notas.append(nota)
+                except ValueError:
+                    printCor('-=- Erro! Nota invalida digitada! -=-', 'vermelho')
+                    
 
 limpaTela('cls')
 user = None
@@ -423,6 +523,14 @@ if user['acesso'] == 'admin':
                 elif cmd == 3: #Cadastro de Adm
                     adm = novoAdm()
                     if adm != None: admins.append(adm.copy())
+                else: break #Voltar
+        elif cmd == 2: #Atualização
+            while True:
+                cmd = exibicao('atualizacao', 'admin')
+                if cmd == 1: #Atualizar Aluno
+                    aluno = seleciona('aluno')
+                    aluno = editarAluno(aluno)
+                    if aluno != None: alunos[acharIndex(aluno)] = aluno.copy()
                 else: break #Voltar
         elif cmd == 3: #Exclusão
             while True:
