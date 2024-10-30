@@ -45,6 +45,21 @@ def turma():
             continue
         return turma
     
+def notas():
+    notas = []
+    while True:
+        try:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            printCor('-- [Digite (parar) para encerrar a atribuição de notas] --', 'amarelo')
+            nota = input()
+            if nota.lower() == 'cancelar': return None
+            elif nota.lower() == 'parar': return notas[:]
+            nota = float(nota)
+            if nota < 0 or nota > 100: raise ValueError()
+            notas.append(nota)
+        except ValueError:
+            printCor('-=- Erro! Nota invalida digitada! -=-', 'vermelho')
+
 def email():
     while True: #Solicitação e validação de email
         printCor('-- [Digite (cancelar) para sair] --', 'amarelo')

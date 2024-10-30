@@ -321,18 +321,36 @@ def acharIndex(entidade):
         for i, a, in enumerate(alunos):
             if a['ra'] == entidade['ra']: return i
 
-def editarAluno(aluno):
+    elif entidade['acesso'] == 'prof':
+        for i, p in enumerate(profs):
+            if p['id'] == entidade['id']: return i
+
+    elif entidade['acesso'] == 'admin':
+        for i, a in enumerate(admins):
+            if a['id'] == entidade['id']: return i
+
+def editar(entidade):
+    tipo = entidade['acesso']
     while True:
         limpaTela('cls')
-        mostraAluno(aluno)
+
+        if tipo == 'aluno':
+            mostraAluno(entidade)
+            campos = ['nome', 'idade', 'mae', 'turma', 'notas', 'media']
+        elif tipo == 'prof':
+            mostraProf(entidade)
+            campos = ['email', 'nome', 'turmas', 'salario']
+        elif tipo == 'admin':
+            mostraAdmin(entidade)
+            campos = ['email', 'nome', 'salario']
         
         while True:
             printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
             printCor('-- [Digite (salvar) para salvar alterações] --', 'amarelo')
             campo = input('Digite o campo a ser alterado: ')
             if campo == 'cancelar': return None
-            elif campo == 'salvar': return aluno.copy()
-            elif campo not in ['nome', 'idade', 'mae', 'turma', 'notas', 'media']:
+            elif campo == 'salvar': return entidade.copy()
+            elif campo not in campos:
                 printCor('-=- Erro! Campo Invalido Digitado! -=-', 'vermelho')
                 continue
             elif campo == 'media':
@@ -341,72 +359,38 @@ def editarAluno(aluno):
             break
 
         if campo == 'nome':
-            while True: #Solicitação e validação do nome
-                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-                nome = input('Nome: ').title().strip()
-                if nome == 'Cancelar': break
-                elif not nome.replace(' ', '').isalpha():
-                    printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-                    continue
-                aluno['nome'] = nome
-                break
+            nome = solicita.nome()
+            if nome != None: entidade['nome'] = nome
         
         elif campo == 'idade':
-            while True: #Solicitação e validação da idade
-                try:
-                    printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-                    idade = input('Idade [Para menores de 1 ano digite 0]: ')
-                    if idade.lower() == 'cancelar': return None
-                    idade = int(idade)
-                    if idade < 0: raise ValueError()
-                    elif idade > 4:
-                        printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
-                        continue
-                    aluno['idade'] = idade
-                    break
-                except:
-                    printCor('-=- Erro! Idade Invalida Digitada! -=-', 'vermelho')
+            idade = solicita.idade()
+            if idade != None: entidade['idade'] = idade
 
         elif campo == 'mae':
-            while True: #Solicitação e validação do nome da mãe
-                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-                mae = input('Nome da mãe: ').title().strip()
-                if mae == 'Cancelar': break
-                elif not mae.replace(' ', '').isalpha():
-                    printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-                    continue
-                aluno['mae'] = mae
-                break
+            mae = solicita.nome()
+            if mae != None: entidade['mae'] = mae
 
         elif campo == 'turma':
-            while True: #Solicitação e validação da turma
-                printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-                turma = input('Turma: ').upper()
-                if turma == 'CANCELAR': return None
-                elif not turma.isalpha() or len(turma) != 1:
-                    printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
-                    continue
-                aluno['turma'] = turma
-                break
+            turma = solicita.turma()
+            if turma != None: entidade['turma'] = turma
 
         elif campo == 'notas':
-            notas = []
-            while True:
-                try:
-                    printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-                    printCor('-- [Digite (parar) para encerrar a atribuição de notas] --', 'amarelo')
-                    nota = input()
-                    if nota.lower() == 'cancelar': break
-                    elif nota.lower() == 'parar':
-                        aluno['notas'] = notas[:]
-                        aluno['media'] = sum(notas) / len(notas)
-                        break
-                    nota = float(nota)
-                    if nota < 0 or nota > 100: raise ValueError()
-                    notas.append(nota)
-                except ValueError:
-                    printCor('-=- Erro! Nota invalida digitada! -=-', 'vermelho')
-                    
+            notas = solicita.notas()
+            if notas != None:
+                entidade['notas'] = notas
+                entidade['media'] = sum(entidade['notas']) / len(entidade['notas'])
+
+        elif campo == 'email':
+            email = solicita.email()
+            if email != None: entidade['email'] = email
+
+        elif campo == 'turmas':
+            turmas = solicita.turmas()
+            if turmas != None: entidade['turmas'] = turmas
+
+        elif campo == 'salario':
+            salario = solicita.salario()
+            if salario != None: entidade['salario'] = salario
 
 limpaTela('cls')
 user = None
@@ -436,8 +420,16 @@ if user['acesso'] == 'admin':
                 cmd = exibicao('atualizacao', 'admin')
                 if cmd == 1: #Atualizar Aluno
                     aluno = seleciona('aluno')
-                    aluno = editarAluno(aluno)
+                    if aluno != None: aluno = editar(aluno)
                     if aluno != None: alunos[acharIndex(aluno)] = aluno.copy()
+                if cmd == 2: #Atualizar Professor
+                    prof = seleciona('professor')
+                    if prof != None: prof = editar(prof)
+                    if prof != None: profs[acharIndex(prof)] = prof.copy()
+                if cmd == 3: #Atualizar Admin
+                    adm = seleciona('admin')
+                    if adm != None: adm = editar(adm)
+                    if adm != None: admins[acharIndex(adm)] = adm.copy()
                 else: break #Voltar
         elif cmd == 3: #Exclusão
             while True:
