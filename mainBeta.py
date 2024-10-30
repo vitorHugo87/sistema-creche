@@ -1,5 +1,7 @@
 from os import system as limpaTela
 
+import solicita
+
 admins = [
     {'id': 1, 'email': 'admin@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'Walter White', 'salario': 3500.0},
     {'id': 2, 'email': 'admin2@gmail.com', 'senha': 'adm123', 'acesso': 'admin', 'nome': 'John Lark', 'salario': 4700.0}
@@ -125,46 +127,17 @@ def novoAluno():
 
     limpaTela('cls')
 
-    while True: #Solicitação e validação do nome
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        aluno['nome'] = input('Nome: ').title().strip()
-        if aluno['nome'] == 'Cancelar': return None
-        elif not aluno['nome'].replace(' ', '').isalpha():
-            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    aluno['nome'] = solicita.nome()
+    if aluno['nome'] == None: return None
     
-    while True: #Solicitação e validação da idade
-        try:
-            printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-            aluno['idade'] = input('Idade [Para menores de 1 ano digite 0]: ')
-            if aluno['idade'].lower() == 'cancelar': return None
-            aluno['idade'] = int(aluno['idade'])
-            if aluno['idade'] < 0: raise ValueError()
-            elif aluno['idade'] > 4:
-                printCor('-=- Erro! A Creche só aceita crianças com até 4 anos de idade -=-', 'vermelho')
-                continue
-            break
-        except:
-            printCor('-=- Erro! Idade Invalida Digitada! -=-', 'vermelho')
+    aluno['idade'] = solicita.idade()
+    if aluno['idade'] == None: return None
 
-    while True: #Solicitação e validação do nome da mãe
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        aluno['mae'] = input('Nome da mãe: ').title().strip()
-        if aluno['mae'] == 'Cancelar': return None
-        elif not aluno['mae'].replace(' ', '').isalpha():
-            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    aluno['mae'] = solicita.nome()
+    if aluno['mae'] == None: return None
 
-    while True: #Solicitação e validação da turma
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        aluno['turma'] = input('Turma: ').upper()
-        if aluno['turma'] == 'CANCELAR': return None
-        elif not aluno['turma'].isalpha() or len(aluno['turma']) != 1:
-            printCor('-=- Erro! Turma invalida digitada -=-', 'vermelho')
-            continue
-        break
+    aluno['turma'] = solicita.turma()
+    if aluno['turma'] == None: return None
 
     aluno['notas'] = []
     aluno['media'] = 0.0
@@ -176,62 +149,22 @@ def novoProf():
 
     limpaTela('cls')
 
-    while True: #Solicitação e validação de email
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        prof['email'] = input('Email: ')
-        if prof['email'] == 'cancelar': return None
-        elif not '@' in prof['email']:
-            printCor('-=- Erro! Email Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    prof['email'] = solicita.email()
+    if prof['email'] == None: return None
 
-    while True: #Solicitação e validação de senha
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        prof['senha'] = input('Senha: ')
-        if prof['senha'] == 'cancelar': return None
-        elif len(prof['senha']) < 6:
-            printCor('-=- Erro! A senha deve ter ao minimo 6 caracteres -=-', 'vermelho')
-            continue
-        break
+    prof['senha'] = solicita.senha()
+    if prof['senha'] == None: return None
 
     prof['acesso'] = 'prof'
 
-    while True: #Solicitação e validação do nome
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        prof['nome'] = input('Nome: ').title().strip()
-        if prof['nome'] == 'Cancelar': return None
-        elif not prof['nome'].replace(' ', '').isalpha():
-            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    prof['nome'] = solicita.nome()
+    if prof['nome'] == None: return None
 
-    prof['turmas'] = []
-    while True: #Solicitação e validação de turmas
-        printCor('-- [Digite cancelar para sair] --', 'amarelo')
-        printCor('-- [Digite parar para parar de adicionar turmas] --', 'amarelo')
-        turma = input('Turma: ')
-        if turma == 'cancelar': return None
-        if turma == 'parar':
-            if len(prof['turmas']) < 1:
-                printCor('-=- Erro! Professor precisa possuir ao menos uma turma! -=-', 'vermelho')
-                continue
-            break
-        elif not turma.isalpha() or len(turma) > 1:
-            printCor('-=- Erro! Turma Invalida! -=-', 'vermelho')
-            continue
-        prof['turmas'].append(turma.upper())
-    prof['turmas'].sort()
+    prof['turmas'] = solicita.turmas()
+    if prof['turmas'] == None: return None
 
-    while True: #Solicitação e validação de salario
-        try:
-            printCor('-- [Digite cancelar para sair] --', 'amarelo')
-            prof['salario'] = input('Salario: ')
-            if prof['salario'] == 'cancelar': return None
-            prof['salario'] = float(prof['salario'])
-            if prof['salario'] < 0: raise ValueError()
-            break
-        except ValueError:
-            printCor('-=- Erro! Valor invalido digitado -=-', 'vermelho')
+    prof['salario'] = solicita.salario()
+    if prof['salario'] == None: return None
 
     return prof.copy()
 
@@ -241,45 +174,19 @@ def novoAdm():
 
     limpaTela('cls')
 
-    while True: #Solicitação e validação de email
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        adm['email'] = input('Email: ')
-        if adm['email'] == 'cancelar': return None
-        elif not '@' in adm['email']:
-            printCor('-=- Erro! Email Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    adm['email'] = solicita.email()
+    if adm['email'] == None: return None
 
-    while True: #Solicitação e validação de senha
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        adm['senha'] = input('Senha: ')
-        if adm['senha'] == 'cancelar': return None
-        elif len(adm['senha']) < 6:
-            printCor('-=- Erro! A senha deve ter ao minimo 6 caracteres -=-', 'vermelho')
-            continue
-        break
+    adm['senha'] = solicita.senha()
+    if adm['senha'] == None: return None
 
     adm['acesso'] = 'admin'
 
-    while True: #Solicitação e validação do nome
-        printCor('-- [Digite (cancelar) para sair] --', 'amarelo')
-        adm['nome'] = input('Nome: ').title().strip()
-        if adm['nome'] == 'Cancelar': return None
-        elif not adm['nome'].replace(' ', '').isalpha():
-            printCor('-=- Erro! Nome Invalido Digitado -=-', 'vermelho')
-            continue
-        break
+    adm['nome'] = solicita.nome()
+    if adm['nome'] == None: return None
 
-    while True: #Solicitação e validação de salario
-        try:
-            printCor('-- [Digite cancelar para sair] --', 'amarelo')
-            adm['salario'] = input('Salario: ')
-            if adm['salario'] == 'cancelar': return None
-            adm['salario'] = float(adm['salario'])
-            if adm['salario'] < 0: raise ValueError()
-            break
-        except ValueError:
-            printCor('-=- Erro! Valor invalido digitado -=-', 'vermelho')
+    adm['salario'] = solicita.salario()
+    if adm['salario'] == None: return None
     
     return adm.copy()
 
