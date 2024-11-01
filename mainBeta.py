@@ -431,6 +431,25 @@ def selecionaAluno(alunosProf):
             if ra == a['ra']: return a.copy()
         printCor('-=- Erro! RA Não Encontrado! -=-', 'vermelho')
 
+def adicionarNota(aluno):
+    aluno['notas'] = aluno['notas'][:]
+    while True:
+        limpaTela('cls')
+        mostraAluno(aluno)
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            printCor('-- [Digite (salvar) para salvar alterações] --', 'amarelo')
+            nota = input('Nota: ').lower()
+            if nota == 'cancelar': return None
+            elif nota == 'salvar': return aluno.copy()
+            try:
+                nota = float(nota)
+                if nota < 0 or nota > 100: raise ValueError()
+                aluno['notas'].append(nota)
+                aluno['media'] = sum(aluno['notas']) / len(aluno['notas'])
+                break
+            except:
+                printCor('-=- Erro! Nota invalida digitada! -=-', 'vermelho')
 
 
 limpaTela('cls')
@@ -506,4 +525,8 @@ elif user['acesso'] == 'prof':
         cmd = exibicao('menu', 'prof')
         if cmd == 1: #Adicionar Notas
             aluno = selecionaAluno(alunosProf)
+            if aluno != None: aluno = adicionarNota(aluno)
+            if aluno != None: 
+                alunos[acharIndex(aluno)] = aluno.copy()
+                alunosProf = retornaAlunos(user['turmas'])
         else: break #Sair
