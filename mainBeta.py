@@ -93,6 +93,17 @@ def exibicao(tela, userLevel):
             print('4 - Voltar')
             printCor(('-' * 30), 'azul')
 
+    elif userLevel == 'prof':
+        if tela == 'menu':
+            range = 4
+            printCor(' MENU '.center(30, '-'), 'azul')
+            print('1 - Adicionar Notas')
+            print('2 - Excluir Notas')
+            print('3 - Relatorios')
+            print('4 - Sair')
+            printCor(('-' * 30), 'azul')
+
+
     return pedirCmd(range)
 
 def pedirCmd(range):
@@ -118,6 +129,8 @@ def login(usuario, senha):
     limpaTela('cls')
     printCor('-=- Usuario ou Senha invalido! -=-', 'vermelho')
     return None
+
+#Funções do Admin
 
 def novoAluno():
     aluno = {}
@@ -392,6 +405,34 @@ def editar(entidade):
             salario = solicita.salario()
             if salario != None: entidade['salario'] = salario
 
+#Funções do Professor
+
+def retornaAlunos(turmas):
+    alunosValidos = []
+    for a in alunos:
+        if a['turma'] in turmas: alunosValidos.append(a.copy())
+    return alunosValidos
+
+def selecionaAluno(alunosProf):
+    limpaTela('cls')
+    for a in alunosProf:
+        mostraAluno(a)
+
+    while True:
+        printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+        ra = input().lower()
+        if ra == 'cancelar': return None
+        try: ra = int(ra)
+        except: 
+            printCor('-=- Erro! RA Invalido Digitado! -=-', 'vermelho')
+            continue
+        
+        for a in alunosProf:
+            if ra == a['ra']: return a.copy()
+        printCor('-=- Erro! RA Não Encontrado! -=-', 'vermelho')
+
+
+
 limpaTela('cls')
 user = None
 while user == None:
@@ -457,4 +498,12 @@ if user['acesso'] == 'admin':
                     mostraAdmins()
                     input('Pressione Enter para continuar...')
                 else: break #Voltar
+        else: break #Sair
+
+elif user['acesso'] == 'prof':
+    alunosProf = retornaAlunos(user['turmas'])
+    while True:
+        cmd = exibicao('menu', 'prof')
+        if cmd == 1: #Adicionar Notas
+            aluno = selecionaAluno(alunosProf)
         else: break #Sair
