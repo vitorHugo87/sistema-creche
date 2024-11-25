@@ -420,7 +420,7 @@ def selecionaAluno(alunosProf):
 
     while True:
         printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
-        ra = input().lower()
+        ra = input('RA do Aluno: ').lower()
         if ra == 'cancelar': return None
         try: ra = int(ra)
         except: 
