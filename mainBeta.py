@@ -451,6 +451,26 @@ def adicionarNota(aluno):
             except:
                 printCor('-=- Erro! Nota invalida digitada! -=-', 'vermelho')
 
+def removerNota(aluno):
+    aluno['notas'] = aluno['notas'][:]
+    while True:
+        limpaTela('cls')
+        mostraAluno(aluno)
+        while True:
+            printCor('-- [Digite (cancelar) para voltar] --', 'amarelo')
+            printCor('-- [Digite (salvar) para salvar alterações] --', 'amarelo')
+            nota = input('Qual nota deseja excluir? [Ex: 1]: ').lower()
+            if nota == 'cancelar': return None
+            elif nota == 'salvar': return aluno.copy()
+            try:
+                nota = int(nota)
+                if nota < 1 or nota > len(aluno['notas']): raise ValueError
+                del aluno['notas'][nota - 1]
+                if len(aluno['notas']) != 0: aluno['media'] = sum(aluno['notas']) / len(aluno['notas'])
+                else: aluno['media'] = 0.0
+                break
+            except:
+                printCor('-=- Erro! Posição de nota invalida digitada! -=-', 'vermelho')
 
 limpaTela('cls')
 user = None
@@ -527,6 +547,12 @@ elif user['acesso'] == 'prof':
             aluno = selecionaAluno(alunosProf)
             if aluno != None: aluno = adicionarNota(aluno)
             if aluno != None: 
+                alunos[acharIndex(aluno)] = aluno.copy()
+                alunosProf = retornaAlunos(user['turmas'])
+        elif cmd == 2: #Remover Notas
+            aluno = selecionaAluno(alunosProf)
+            if aluno != None: aluno = removerNota(aluno)
+            if aluno != None:
                 alunos[acharIndex(aluno)] = aluno.copy()
                 alunosProf = retornaAlunos(user['turmas'])
         else: break #Sair
