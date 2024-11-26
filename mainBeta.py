@@ -95,14 +95,20 @@ def exibicao(tela, userLevel):
 
     elif userLevel == 'prof':
         if tela == 'menu':
-            range = 4
+            range = 3
             printCor(' MENU '.center(30, '-'), 'azul')
             print('1 - Adicionar Notas')
             print('2 - Excluir Notas')
-            print('3 - Relatorios')
-            print('4 - Sair')
+            print('3 - Sair')
             printCor(('-' * 30), 'azul')
 
+    elif userLevel == 'aluno':
+        if tela == 'menu':
+            range = 2
+            printCor(' MENU '.center(30, '-'), 'azul')
+            print('1 - Ver Perfil')
+            print('2 - Sair')
+            printCor(('-' * 30), 'azul')
 
     return pedirCmd(range)
 
@@ -555,4 +561,13 @@ elif user['acesso'] == 'prof':
             if aluno != None:
                 alunos[acharIndex(aluno)] = aluno.copy()
                 alunosProf = retornaAlunos(user['turmas'])
+        else: break #Sair
+
+elif user['acesso'] == 'aluno':
+    while True:
+        cmd = exibicao('menu', 'aluno')
+        if cmd == 1: #Ver Perfil
+            limpaTela('cls')
+            mostraAluno(user)
+            input('Pressione Enter para continuar...')
         else: break #Sair
